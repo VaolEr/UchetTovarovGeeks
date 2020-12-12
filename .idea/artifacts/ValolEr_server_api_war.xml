@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ValolEr-server-api:war">
+    <output-path>$PROJECT_DIR$/ValolEr-server-api/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>ValolEr-server-api</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="ValolEr-server-api.war">
+      <element id="artifact" artifact-name="ValolEr-server-api:war exploded" />
+    </root>
+  </artifact>
+</component>
