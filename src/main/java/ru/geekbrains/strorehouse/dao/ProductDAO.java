@@ -15,6 +15,7 @@ public class ProductDAO {
     }
 
     private static void initProducts() {
+        //Здесь, как я предполагаю, будем подключаться к БД по JDBC
         Product product = new Product(1,"New Article","New Name",1,1, 1);
 
         productMap.put(String.valueOf(product.getId()),product);

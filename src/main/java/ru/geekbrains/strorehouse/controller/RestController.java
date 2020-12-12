@@ -22,8 +22,11 @@ public class RestController {
         return "Welcome";
     }
 
-    @RequestMapping(value = "/products", //
-            method = RequestMethod.GET, //
+    //Метод для получения списка всех продуктов.
+    //В дальнейшем, возможно, предусмотрим получение списка всех продуктов с определёнными параметрами
+    //(напр, список продуктов по каждому поставщику)
+    @RequestMapping(value = "/products",
+            method = RequestMethod.GET,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ResponseBody
     public List<Product> getProducts(){
