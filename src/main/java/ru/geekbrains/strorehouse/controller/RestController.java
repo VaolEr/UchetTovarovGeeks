@@ -65,11 +65,7 @@ public class RestController {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public StatusCode addProduct(@RequestBody ProductWithoutID product){
-        if (product == null) {
-            return new StatusCode(StatusCodeType.REQUEST_ERROR);
-        } else {
-            return new StatusCode(productDAO.addProduct(product));
-        }
+        return new StatusCode(productDAO.addProduct(product));
     }
 
     @RequestMapping(value = "/product/{id}",
