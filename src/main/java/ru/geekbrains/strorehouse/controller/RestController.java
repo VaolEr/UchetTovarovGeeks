@@ -72,6 +72,14 @@ public class RestController {
         }
     }
 
+    @RequestMapping(value = "/product/{id}",
+            method = RequestMethod.PUT,
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public StatusCode updateProduct(@PathVariable("id") String id, @RequestBody ProductWithoutID product){
+            return new StatusCode(productDAO.updateProduct(Long.valueOf(id), product));
+    }
+
 
 
 
