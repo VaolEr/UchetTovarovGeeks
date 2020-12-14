@@ -7,30 +7,32 @@ from stockapp.api import BasicAPIRequest
 def list_view(request):
     api_r = BasicAPIRequest()
     if request.method == 'GET':
-        return Response(api_r.get())
+        return Response(api_r.get_products())
 
     elif request.method == "POST":
-        return Response(api_r.post(request))
+        return Response()
 
 
 @api_view(['GET', 'POST'])
 def product_view(request, pk: int):
-    if request.method == 'GET':
-        pass
+    if request.method == 'GET':     # CRUD - read
+        return Response()
 
-    elif request.method == "POST":
-        pass
+    elif request.method == "POST":   # CRUD - update
+        return Response()
 
-    elif request.method == "DELETE":
-        pass
+    elif request.method == "DELETE":    # CRUD - delete
+        return Response()
 
 
 @api_view(['GET', 'POST'])
 def create_view(request):
+    api_r = BasicAPIRequest()
     if request.method == 'GET':
-        pass
+        # TODO add form for create a product
+        return Response()
 
-    elif request.method == "POST":
-        pass
+    elif request.method == "POST":  # CRUD - create
+        return Response(api_r.post_create_product(request))
 
 
