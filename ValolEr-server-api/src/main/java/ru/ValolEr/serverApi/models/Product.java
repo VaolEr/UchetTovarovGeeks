@@ -8,6 +8,10 @@ public class Product {
     private String supplier;
     private String warehouse;
 
+    public Product(){
+
+    }
+
     public Product(int id, String article, String name, String type, String supplier, String warehouse) {
         this.id = id;
         this.article = article;
@@ -63,5 +67,17 @@ public class Product {
 
     public void setWarehouse(String warehouse) {
         this.warehouse = warehouse;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", article='" + article + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", supplier='" + supplier + '\'' +
+                ", warehouse='" + warehouse + '\'' +
+                '}';
     }
 }

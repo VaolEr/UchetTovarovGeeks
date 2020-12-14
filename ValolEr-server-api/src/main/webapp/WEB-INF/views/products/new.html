@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New product</title>
+</head>
+<body>
+
+<form method="POST" action="/products">
+    <label for="name">Name</label>
+    <input name="name" type="text" id="name"/>
+
+    <br>
+
+    <label for="article">Article</label>
+    <input name="article" type="text" id="article"/>
+
+    <br>
+
+    <label for="type">Type</label>
+    <input name="type" type="text" id="type"/>
+
+    <br>
+
+    <label for="supplier">Supplier</label>
+    <input name="supplier" type="text" id="supplier"/>
+
+    <br>
+
+    <label for="warehouse">Warehouse</label>
+    <input name="warehouse" type="text" id="warehouse"/>
+
+    <br>
+
+    <input type="submit" value="Add new product">
+</form>
+
+</body>
+</html>
