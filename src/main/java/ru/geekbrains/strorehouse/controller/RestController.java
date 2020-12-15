@@ -76,6 +76,14 @@ public class RestController {
             return new StatusCode(productDAO.updateProduct(Long.valueOf(id), product));
     }
 
+    @RequestMapping(value = "/product/{id}",
+            method = RequestMethod.DELETE,
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public StatusCode deleteProduct(@PathVariable("id") String id){
+        return new StatusCode(productDAO.deleteProduct(Long.valueOf(id)));
+    }
+
 
 
 

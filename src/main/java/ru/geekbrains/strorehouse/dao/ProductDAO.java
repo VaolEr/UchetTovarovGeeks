@@ -85,4 +85,14 @@ public class ProductDAO {
         }
         return StatusCodeType.SUCCESS;
     }
+
+    public StatusCodeType deleteProduct(Long id) {
+        Product p = productMap.remove(id);
+        if (p == null){
+            return StatusCodeType.DB_ERROR;
+        } else {
+            return StatusCodeType.SUCCESS;
+
+        }
+    }
 }
