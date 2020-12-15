@@ -59,7 +59,7 @@ public class ProductDAO {
         return list;
     }
 
-    public Product getProduct(String id) {
+    public Product getProduct(Long id) {
         return productMap.get(id);
     }
 

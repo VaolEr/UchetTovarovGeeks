@@ -57,7 +57,7 @@ public class RestController {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public Product addProduct(@PathVariable("id") String id) {
-        return productDAO.getProduct(id);
+        return productDAO.getProduct(Long.valueOf(id));
     }
 
     @RequestMapping(value = "/product",
