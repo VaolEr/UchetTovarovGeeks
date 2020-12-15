@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update product data</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/products/{id}(id=${product.getId()})}" th:object="${product}">
+    <label for="name">Name</label>
+    <input type="text" th:field="*{name}" id="name"/>
+
+    <br>
+
+    <label for="article">Article</label>
+    <input type="text" th:field="*{article}" id="article"/>
+
+    <br>
+
+    <label for="type">Type</label>
+    <input type="text" th:field="*{type}" id="type"/>
+
+    <br>
+
+    <label for="supplier">Supplier</label>
+    <input type="text" th:field="*{supplier}" id="supplier"/>
+
+    <br>
+
+    <label for="warehouse">Warehouse</label>
+    <input type="text" th:field="*{warehouse}" id="warehouse"/>
+
+    <br/>
+
+    <input type="submit" value="Update product">
+</form>
+
+</body>
+</html>

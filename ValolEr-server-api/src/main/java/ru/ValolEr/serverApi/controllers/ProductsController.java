@@ -38,6 +38,13 @@ public class ProductsController {
         return "products/new";
     }
 
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable("id") int id){
+        model.addAttribute("product", productDAO.show(id));
+        return "products/edit";
+    }
+
+
     @PostMapping()
     public String create(@RequestParam(value = "name", required = false) String name,
                          @RequestParam(value = "article", required = false) String article,
@@ -92,4 +99,17 @@ public class ProductsController {
 //        return "redirect:/products";
 //    }
 
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("product") Product product,
+                         @PathVariable("id") int id){
+        productDAO.update(id, product);
+        return "redirect:/products";
+
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id){
+        productDAO.delete(id);
+        return "redirect:/products";
+    }
 }

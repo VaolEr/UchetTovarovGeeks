@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Product show page</title>
 </head>
-<body>
+
 <p th:text="${product.getId()}">VALUE</p>
 <p th:text="${product.getName()}">VALUE</p>
 <p th:text="${product.getArticle()}">VALUE</p>
@@ -12,6 +12,14 @@
 <p th:text="${product.getType()}">VALUE</p>
 <p th:text="${product.getWarehouse()}">VALUE</p>
 
+<br/>
+
 <a href="/products"> All products</a>
+
+<a th:href="@{/products/{id}/edit(id=${product.getId()})}"> Edit</a>
+
+<form th:method="DELETE" th:action="@{/products/{id}(id=${product.getId()})}">
+    <input type="Submit" value="Delete">
+</form>
 </body>
 </html>

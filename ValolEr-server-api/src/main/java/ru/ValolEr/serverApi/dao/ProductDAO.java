@@ -30,4 +30,18 @@ public class ProductDAO {
         product.setId(++PRODUCTS_COUNT);
         products.add(product);
     }
+
+    public void update(int id, Product product){
+        Product productToBeUpdated = show(id);
+
+        productToBeUpdated.setName(product.getName());
+        productToBeUpdated.setArticle(product.getArticle());
+        productToBeUpdated.setType(product.getType());
+        productToBeUpdated.setSupplier(product.getSupplier());
+        productToBeUpdated.setWarehouse(product.getWarehouse());
+    }
+
+    public void delete(int id){
+        products.removeIf(product -> product.getId() == id);
+    }
 }
