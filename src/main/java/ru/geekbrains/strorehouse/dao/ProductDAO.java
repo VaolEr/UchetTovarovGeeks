@@ -48,7 +48,7 @@ public class ProductDAO {
 
     public Product createProduct(ProductWithoutID product){
         productCount++;
-        return new Product(productCount,product.getArticle() + productCount,product.getName() + productCount,
+        return new Product(productCount,product.getArticle(),product.getName(),
                 product.getTypeID(), product.getSupplierID(), product.getWarehouseID());
     }
 
@@ -75,15 +75,15 @@ public class ProductDAO {
     }
 
     public StatusCodeType updateProduct(Long id, ProductWithoutID productWithoutID) {
-        try{
-            productMap.put(id, new Product(id, productWithoutID.getArticle(),
-                    productWithoutID.getName(), productWithoutID.getTypeID(),
-                    productWithoutID.getSupplierID(), productWithoutID.getWarehouseID()));
-        } catch (Exception ex){
-            ex.printStackTrace();
+
+        Product product = productMap.put(id, new Product(id, productWithoutID.getArticle(),
+                productWithoutID.getName(), productWithoutID.getTypeID(),
+                productWithoutID.getSupplierID(), productWithoutID.getWarehouseID()));
+        if (product == null){
             return StatusCodeType.DB_ERROR;
+        } else {
+            return StatusCodeType.SUCCESS;
         }
-        return StatusCodeType.SUCCESS;
     }
 
     public StatusCodeType deleteProduct(Long id) {
