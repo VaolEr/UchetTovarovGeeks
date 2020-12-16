@@ -8,20 +8,29 @@ const app = Vue.createApp({
         }
     },
     methods: {
-
-    },
-    mounted() {
-        axios
-            .get('http://127.0.0.1:8001/stock/')
-            .then(response => {
-                this.products = response.data.test_product_list
-                this.product_keys = Object.keys(this.products[0])
+        get_product_list() {
+            this.clear_data()
+            axios
+                .get('http://127.0.0.1:8001/stock/')
+                .then(response => {
+                    this.products = response.data.product_list
+                    this.product_keys = Object.keys(this.products[0])
+                    })
+                .catch(error => {
+                    console.log(error)
+                    this.request_error = true
                 })
-            .catch(error => {
-                console.log(error)
-                this.request_error = true
-            })
-            .finally(() => (this.loading = false));
+                .finally(() => (this.loading = false));
+        },
+        clear_data() {
+            this.loading= true;
+            this.request_error= false;
+            products = [];
+            product_keys = [];
+        },
+    },
+    created() {
+        this.get_product_list()
     }
 })
 

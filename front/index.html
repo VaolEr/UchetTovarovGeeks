@@ -12,10 +12,13 @@
     <script src="https://unpkg.com/vue@next"></script>
     <!-- end Vue.js -->
 </head>
-<body>
-<div id="app">
-    <p v-if="loading"> Загружаем данные... </p>
-    <p v-if="request_error"> Ошибка запроса. Посмотри в консоль </p>
+<body class="bg-secondary">
+<div class="container" id="app">
+    <div v-if="loading" class="alert alert-success fixed-bottom" role="alert">
+        <div class="spinner-border spinner-border-sm ml-auto" role="status" aria-hidden="true"></div>
+          Загружаем данные...
+    </div>
+    <div v-if="request_error" class="alert alert-danger fixed-top" role="alert"> Ошибка запроса. Посмотри в консоль </div>
 
     <table v-if="products.length"  class="table table-sm table-striped table-dark table-hover">
         <thead>
@@ -28,8 +31,8 @@
                 <td v-for="value in product">{{ value }}</td>
             </tr>
         </tbody>
-
     </table>
+    <button :disabled="loading" @click="get_product_list" type="button" class="btn btn-dark">Update</button>
 
 </div>
 

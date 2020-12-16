@@ -5,33 +5,44 @@ from django.conf import settings
 class BasicAPIRequest:
     def __init__(self):
         self.base_url = settings.BACKEND_API_BASE_URL
-        self.test_dict = {
-            "ERROR": "Request failed. Providing test json",
-            "Err_desc": "",
-            "test_product_list": [
-                {"id": "1", "article": "ART1", "NAME": "Prod1", "Stock": "1"},
-                {"id": "2", "article": "ART2", "NAME": "Prod2", "Stock": "2"},
-                {"id": "3", "article": "ART3", "NAME": "Prod3", "Stock": "3"},
-            ]
+        self.data_dict = {
+            "error": "",
+            "product_list": [
+                {
+                     "id": 1,
+                     "article": "New Article 1",
+                     "name": "New Name 1",
+                     "typeID": 1,
+                     "supplierID": 1,
+                     "warehouseID": 1
+                 },
+                {
+                    "id": 2,
+                    "article": "New Article 2",
+                    "name": "New Name 2",
+                    "typeID": 2,
+                    "supplierID": 2,
+                    "warehouseID": 2
+                },
+                ],
         }
 
     def get_products(self) -> dict:
         try:
-            url = self.base_url+'products'
-            response = r.get(url)
-            print(response.status_code)
+            url = self.base_url+'products/'
+            response = r.get(url, timeout=1)
             if response.ok:
-                return response.json()
+                self.data_dict["product_list"] = response.text
         except Exception as e:
-            self.test_dict["Err_desc"] = e.__repr__()
-        return self.test_dict
+            self.data_dict["error"] = e.__repr__()
+        return self.data_dict
 
     def post_create_product(self, request) -> dict:
         try:
-            response = {**self.test_dict, **request.data}
+            response = {**self.data_dict, **request.data}
             return response
         except Exception as e:
-            self.test_dict["Err_desc"] = e.__repr__()
+            self.data_dict["error"] = e.__repr__()
             return request.data
 
     def post_update_product(self, request) -> dict:
