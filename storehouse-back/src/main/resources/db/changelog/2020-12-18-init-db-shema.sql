@@ -1,5 +1,7 @@
 -- liquibase formatted sql
--- changeset Create_items:1
+-- Format: --changeset author:id attribute1:value1 attribute2:value2 [...]
+
+-- changeset Dmitry:Create_items_table
 CREATE TABLE "items"
 (
     "id"          int  NOT NULL,
@@ -10,7 +12,7 @@ CREATE TABLE "items"
     CONSTRAINT "items_pk" PRIMARY KEY ("id")
 );
 
--- changeset Create_categories:2
+-- changeset Dmitry:Create_categories_table
 CREATE TABLE "categories"
 (
     "id"   int NOT NULL,
@@ -18,7 +20,7 @@ CREATE TABLE "categories"
     CONSTRAINT "categories_pk" PRIMARY KEY ("id")
 );
 
--- changeset Create_storehouses:3
+-- changeset Dmitry:Create_storehouses_table
 CREATE TABLE "storehouses"
 (
     "id"   int  NOT NULL,
@@ -26,7 +28,7 @@ CREATE TABLE "storehouses"
     CONSTRAINT "storehouses_pk" PRIMARY KEY ("id")
 );
 
--- changeset Create_suppliers:4
+-- changeset Dmitry:Create_suppliers_table
 CREATE TABLE "suppliers"
 (
     "id"   serial NOT NULL,
@@ -34,7 +36,7 @@ CREATE TABLE "suppliers"
     CONSTRAINT "suppliers_pk" PRIMARY KEY ("id")
 );
 
--- changeset Create_items_storehouses:5
+-- changeset Dmitry:Create_items_storehouses_table
 CREATE TABLE "items_storehouses"
 (
     "item_id"       int NOT NULL,
@@ -42,13 +44,13 @@ CREATE TABLE "items_storehouses"
     "qty"           int NOT NULL
 );
 
--- changeset Alter_items_fks:6
+-- changeset Dmitry:Alter_items_table_fks
 ALTER TABLE "items"
     ADD CONSTRAINT "items_fk0" FOREIGN KEY ("supplier_id") REFERENCES "suppliers" ("id");
 ALTER TABLE "items"
     ADD CONSTRAINT "items_fk1" FOREIGN KEY ("category_id") REFERENCES "categories" ("id");
 
--- changeset Alter_items_storehouses_fks:7
+-- changeset Dmitry:Alter_items_storehouses_table_fks
 ALTER TABLE "items_storehouses"
     ADD CONSTRAINT "items_storehouses_fk0" FOREIGN KEY ("item_id") REFERENCES "items" ("id");
 ALTER TABLE "items_storehouses"
