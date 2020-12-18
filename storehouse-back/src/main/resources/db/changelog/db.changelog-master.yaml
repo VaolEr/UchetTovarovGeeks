@@ -1,4 +1,7 @@
 databaseChangeLog:
-      # DB schema initialization
+  # DB schema initialization
   - include:
       file: db/changelog/2020-12-18-init-db-shema.sql
+  # Populating DB with test data
+  - include:
+      file: db/changelog/2020-12-18-populate-db.sql
