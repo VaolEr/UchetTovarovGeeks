@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration;
 
-@SpringBootApplication(exclude = {LiquibaseAutoConfiguration.class})
+@SpringBootApplication()
 public class StorehouseApplication {
 
 	public static void main(String[] args) {
