@@ -6,8 +6,8 @@ CREATE TABLE items
 (
     -- SERIAL type "id" is BIGINT
     id          integer UNSIGNED NOT NULL AUTO_INCREMENT,
-    name        TEXT             NOT NULL,
-    sku         TEXT             NOT NULL,
+    name        VARCHAR(255)     NOT NULL,
+    sku         VARCHAR(255)     NOT NULL,
     supplier_id integer UNSIGNED NOT NULL,
     category_id integer UNSIGNED NOT NULL,
     CONSTRAINT items_pk PRIMARY KEY (id)
@@ -18,7 +18,8 @@ CREATE TABLE items
 CREATE TABLE categories
 (
     id   integer UNSIGNED NOT NULL AUTO_INCREMENT,
-    name TEXT             NOT NULL,
+    name VARCHAR(255)     NOT NULL,
+
     CONSTRAINT categories_pk PRIMARY KEY (id)
 );
 
@@ -26,7 +27,7 @@ CREATE TABLE categories
 CREATE TABLE storehouses
 (
     id   integer UNSIGNED NOT NULL AUTO_INCREMENT,
-    name TEXT             NOT NULL,
+    name VARCHAR(255)     NOT NULL,
     CONSTRAINT storehouses_pk PRIMARY KEY (id)
 );
 
@@ -34,7 +35,7 @@ CREATE TABLE storehouses
 CREATE TABLE suppliers
 (
     id   integer UNSIGNED NOT NULL AUTO_INCREMENT,
-    name TEXT             NOT NULL,
+    name VARCHAR(255)     NOT NULL,
     CONSTRAINT suppliers_pk PRIMARY KEY (id)
 );
 
