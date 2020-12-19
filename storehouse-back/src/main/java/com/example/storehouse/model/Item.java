@@ -14,7 +14,7 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-@Entity
+@Entity(name = "Item")
 @Table(name = "items")
 @Getter
 @Setter
