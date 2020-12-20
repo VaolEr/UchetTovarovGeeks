@@ -1,12 +1,12 @@
 package com.example.storehouse.repository;
 
-import com.example.storehouse.model.Category;
+import com.example.storehouse.model.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)
-public interface CategoriesRepository extends JpaRepository<Category, Integer> {
+public interface SuppliersRepository extends JpaRepository<Supplier, Integer> {
 
-    Category getByItemsId(Integer itemId);
+    Supplier getByItemsId(Integer itemId);
 
 }
