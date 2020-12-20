@@ -1,11 +1,10 @@
-package com.example.storehouse.jpa.abstractentity;
+package com.example.storehouse.model.abstractentity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @MappedSuperclass

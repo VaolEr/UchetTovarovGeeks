@@ -1,4 +1,4 @@
-package com.example.storehouse.jpa.abstractentity;
+package com.example.storehouse.model.abstractentity;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;

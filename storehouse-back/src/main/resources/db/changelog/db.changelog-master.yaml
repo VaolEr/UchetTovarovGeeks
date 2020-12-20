@@ -5,3 +5,6 @@ databaseChangeLog:
   # Populating DB with test data
   - include:
       file: db/changelog/data/2020-12-18-populate-db.sql
+  # Update table items_storehouses
+  - include:
+      file: db/changelog/shema/2020-12-20-update-items-storehouses-table.sql

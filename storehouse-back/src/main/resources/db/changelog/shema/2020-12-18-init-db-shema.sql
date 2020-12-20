@@ -39,15 +39,12 @@ CREATE TABLE suppliers
     CONSTRAINT suppliers_pk PRIMARY KEY (id)
 );
 
--- changeset Valentin:Create_items_storehouses_table
+-- changeset Dmitry:Create_items_storehouses_table
 CREATE TABLE items_storehouses
 (
-    id            integer UNSIGNED NOT NULL AUTO_INCREMENT,
     item_id       integer UNSIGNED NOT NULL,
     storehouse_id integer UNSIGNED NOT NULL,
-    qty           integer          NOT NULL,
-
-    CONSTRAINT items_storehouses_pk PRIMARY KEY (id)
+    qty           integer          NOT NULL
 );
 
 -- changeset Dmitry:Alter_items_table_fks

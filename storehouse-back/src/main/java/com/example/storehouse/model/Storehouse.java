@@ -1,11 +1,9 @@
-package com.example.storehouse.jpa.storehouse;
+package com.example.storehouse.model;
 
-import com.example.storehouse.jpa.abstractentity.AbstractNamedEntity;
-import com.example.storehouse.jpa.item.ItemStorehouse;
+import com.example.storehouse.model.abstractentity.AbstractNamedEntity;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 

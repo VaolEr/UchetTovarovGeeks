@@ -1,7 +1,6 @@
-package com.example.storehouse.jpa.supplier;
+package com.example.storehouse.model;
 
-import com.example.storehouse.jpa.abstractentity.AbstractNamedEntity;
-import com.example.storehouse.jpa.item.Item;
+import com.example.storehouse.model.abstractentity.AbstractNamedEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

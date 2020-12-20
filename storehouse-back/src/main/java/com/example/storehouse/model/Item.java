@@ -1,8 +1,6 @@
-package com.example.storehouse.jpa.item;
+package com.example.storehouse.model;
 
-import com.example.storehouse.jpa.abstractentity.AbstractNamedEntity;
-import com.example.storehouse.jpa.category.Category;
-import com.example.storehouse.jpa.supplier.Supplier;
+import com.example.storehouse.model.abstractentity.AbstractNamedEntity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;

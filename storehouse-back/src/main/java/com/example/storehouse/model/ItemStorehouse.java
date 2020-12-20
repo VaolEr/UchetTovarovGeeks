@@ -1,7 +1,6 @@
-package com.example.storehouse.jpa.item;
+package com.example.storehouse.model;
 
-import com.example.storehouse.jpa.abstractentity.AbstractBaseEntity;
-import com.example.storehouse.jpa.storehouse.Storehouse;
+import com.example.storehouse.model.abstractentity.AbstractBaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
