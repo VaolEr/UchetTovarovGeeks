@@ -1,24 +1,26 @@
-package com.example.storehouse.model;
+package com.example.storehouse.jpa.supplier;
 
+import com.example.storehouse.jpa.abstractentity.AbstractNamedEntity;
+import com.example.storehouse.jpa.item.Item;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.*;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "Category")
-@Table(name = "categories")
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.List;
+
+@Entity(name = "Supplier")
+@Table(name = "suppliers")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Category extends AbstractNamedEntity {
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+public class Supplier extends AbstractNamedEntity {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "supplier")
     // этот момент можно будет обдумать, стоит ли реализовывать обработку "вложенных" изменений
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonBackReference
