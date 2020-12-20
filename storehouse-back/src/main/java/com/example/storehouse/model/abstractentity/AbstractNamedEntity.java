@@ -1,41 +1,25 @@
 package com.example.storehouse.model.abstractentity;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Persistable;
+import lombok.Setter;
 
 @MappedSuperclass
-// @Data и @NoArgs (и др. ломбок) можно тут почитать: https://urvanov.ru/2015/09/19/lombok-data/
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@Access(AccessType.FIELD)
-// В дальнейшем - про class AbstractPersistable<PK> можно почитать и попробовать
-// применить взамен данного, разделив на Base (с id) и Named (+ name)
-// если в схему БД добавятся сущности без колонки name
-public abstract class AbstractNamedEntity implements Persistable<Integer> {
+public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
-    @Id
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id;
+    // Данная сущность у нас расширяет AbstractBaseEntity доп. полем name,
+    // поэтому просто наследуем, без дублирования id
 
     @NotNull
     @NotBlank
     @Column(name = "name", nullable = false) //для наглядности
-    protected String name;
-
-    @Override
-    public boolean isNew() {
-        return null == getId();
-    }
+    public String name; // раз положили в отдельный пакет - модификатор доступа меняем
 
 }

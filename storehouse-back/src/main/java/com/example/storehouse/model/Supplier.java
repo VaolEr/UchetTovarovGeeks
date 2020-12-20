@@ -19,9 +19,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Supplier extends AbstractNamedEntity {
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "supplier")
     // этот момент можно будет обдумать, стоит ли реализовывать обработку "вложенных" изменений
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonBackReference
     private List<Item> items;
+
 }
