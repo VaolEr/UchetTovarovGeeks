@@ -5,10 +5,9 @@ databaseChangeLog:
   # Populating DB with test data
   - include:
       file: db/changelog/data/2020-12-18-populate-db.sql
-  # Update table items_storehouses
-  #joining table
+  # Add PK (id, integer) to items_storehouses joining table
   - include:
       file: db/changelog/shema/2020-12-20-update-items-storehouses-table.sql
-  #items-storehouses-table.sql
+  # Increment created PK id, from 0 to 999
   - include:
       file: db/changelog/data/2020-12-20-update-items-storehouses-ids.sql
