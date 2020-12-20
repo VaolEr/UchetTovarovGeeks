@@ -6,5 +6,9 @@ databaseChangeLog:
   - include:
       file: db/changelog/data/2020-12-18-populate-db.sql
   # Update table items_storehouses
+  #joining table
   - include:
       file: db/changelog/shema/2020-12-20-update-items-storehouses-table.sql
+  #items-storehouses-table.sql
+  - include:
+      file: db/changelog/data/2020-12-20-update-items-storehouses-ids.sql
