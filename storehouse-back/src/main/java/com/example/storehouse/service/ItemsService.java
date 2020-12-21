@@ -27,7 +27,9 @@ public class ItemsService {
 
     public Item getById(Integer id) {
         return itemsRepository.findById(id).orElseThrow(
-            () -> new NotFoundException(String.valueOf(id))
+            () -> new NotFoundException(
+                String.format("Not found '%s' with id '%d'", Item.class.getSimpleName(), id)
+            )
         );
     }
 

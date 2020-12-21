@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public interface ItemsRepository extends JpaRepository<Item, Integer> {
 
+    // проверить - вытаскивать только id через граф зависимостей:
+    //https://stackoverflow.com/questions/53490655/how-to-use-jpa-entitygraph-to-load-only-a-subset-of-entity-basic-attributes
+
     @Override
     @EntityGraph(attributePaths = {"category"}, type = EntityGraph.EntityGraphType.FETCH)
     List<Item> findAll();
