@@ -25,7 +25,7 @@ SECRET_KEY = 'du77nc7nu8#_3r5t4y8qsg3nr480hs77htsgr_x@8g!uzd3)i8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://localhost', '']
+ALLOWED_HOSTS = ['localhost', 'pydjango-geek-stockcontrol.herokuapp.com/']
 
 
 # Application definition
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
