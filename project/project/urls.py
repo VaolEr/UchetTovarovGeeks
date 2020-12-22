@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+import stockapp.views as stockapp
 
 
 urlpatterns = [
+    path('', stockapp.index_view, name='index'),
     path('admin/', admin.site.urls),
     path('stock/', include('stockapp.urls')),
     path('api-auth/', include('rest_framework.urls')),

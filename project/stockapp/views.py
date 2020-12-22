@@ -1,7 +1,11 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from stockapp.api import BasicAPIRequest
+from django.shortcuts import render
 
+
+def index_view(request):
+    return render(request, 'stockapp/index.html')
 
 @api_view(['GET', 'POST'])
 def list_view(request):
@@ -14,9 +18,10 @@ def list_view(request):
 
 
 @api_view(['GET', 'POST'])
-def product_view(request, pk: int):
+def product_view(request, slug: str):
+    api_r = BasicAPIRequest()
     if request.method == 'GET':     # CRUD - read
-        return Response()
+        return Response(api_r.get_product(slug))
 
     elif request.method == "POST":   # CRUD - update
         return Response()
@@ -27,7 +32,9 @@ def product_view(request, pk: int):
 
 @api_view(['GET', 'POST'])
 def create_view(request):
+
     api_r = BasicAPIRequest()
+
     if request.method == 'GET':
         # TODO add form for create a product
         return Response()
