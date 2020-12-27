@@ -2,45 +2,28 @@
   <el-container id="app">
     
     <el-aside width="200px" >
-      <Menu v-on:change-component="selectActiveComponent" components="components"/>
+      <Menu />
     </el-aside>
-    <el-main style="padding-top: 0px;">
-      <component v-bind:is="activeComponent"></component>
-      
+    <el-main style="padding-top: 0px;"> 
+      <router-view />
     </el-main>
     
   </el-container>
 </template>
 
 <script>
-import GetListProducts from './components/GetListProducts.vue'
 import Menu from './components/Menu.vue'
-import CreateProduct from './components/CreateProduct.vue'
 
 export default {
   name: 'app',
   components: {
-    GetListProducts,
     Menu,
-    CreateProduct,
-  },
+    },
   data() {
     return {
-      activeComponent: GetListProducts,
-      appComponents: this.$options.components
+      
     }
   },
-  methods: {
-    selectActiveComponent: function (compName) {
-      this.activeComponent = this.appComponents[compName]
-    },
-    printStuff() {
-      console.log(this)
-    }
-  },
-  mounted() {
-    this.printStuff()
-  }
 }
 </script>
 

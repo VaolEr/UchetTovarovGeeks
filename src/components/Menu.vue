@@ -1,8 +1,12 @@
 <template>
     <el-menu default-active="1">
-        <el-menu-item v-for="(item, index) in menuItems" :key="index" @click="changeMainComp(item.componentName)">
-            <i :class='item.icon'></i>
-            {{ item.title }} 
+        <el-menu-item v-for="(item, index) in menuItems" :key="index">
+            
+            <router-link :to="item.routName">
+                <i :class='item.icon'></i>
+                {{ item.title }} 
+            </router-link>
+            
         </el-menu-item>
     </el-menu>
 </template>
@@ -13,15 +17,13 @@ export default {
     data() {
         return{
             menuItems: [
-                {title: 'Get product list', componentName: 'GetListProducts', icon:'el-icon-document'},
-                {title: 'Create product', componentName: 'CreateProduct', icon:'el-icon-document-add'}
+                {title: 'Get product list', icon:'el-icon-document', routName: {name: 'productList'}},
+                {title: 'Create product', icon:'el-icon-document-add', routName: {name: 'ProductFormView'}}
                 ],
         }
     },
     methods: {
-        changeMainComp(componentName) {
-            this.$emit('change-component', componentName)
-        }
+        
     }
 
 }

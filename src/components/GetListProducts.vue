@@ -38,9 +38,6 @@
 <script>
 export default {
   name: 'GetListProducts',
-  props: {
-    msg: String
-  },
   data() {
         return {
             loading: true,
@@ -71,11 +68,20 @@ export default {
             this.product_keys = [];
         },
         handleEdit(id) {
-          console.log(id)
-          console.log(this)
+          this.$emit('change-component', 'ProductForm', {id})
         },
         handleDelete(id) {
-          console.log(id)
+          this.$axios
+                .delete(`stock/product/${id}/`)
+                .then(response => {
+                    this.products = response.data.product_list
+                    this.product_keys = Object.keys(this.products[0])
+                    })
+                .catch(error => {
+                    console.log(error)
+                    this.request_error = true
+                })
+                .finally(() => (this.loading = false));
         }
     },
     created() {
