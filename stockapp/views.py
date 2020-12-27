@@ -17,17 +17,17 @@ def list_view(request):
         return Response()
 
 
-@api_view(['GET', 'POST'])
-def product_view(request, slug: str):
+@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+def product_view(request, pk: int):
     api_r = BasicAPIRequest()
     if request.method == 'GET':     # CRUD - read
-        return Response(api_r.get_product(slug))
+        return Response(api_r.get_product(pk))
 
     elif request.method == "POST":   # CRUD - update
         return Response()
 
     elif request.method == "DELETE":    # CRUD - delete
-        return Response()
+        return Response(api_r.delete_product(pk))
 
 
 @api_view(['GET', 'POST'])
