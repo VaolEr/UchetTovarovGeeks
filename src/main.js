@@ -5,10 +5,10 @@ import './plugins/element.js'
 import router from './router'
 
 // local test
-// Axios.defaults.baseURL = 'http://127.0.0.1:8001/'
+Axios.defaults.baseURL = 'http://127.0.0.1:8001/'
 
 // stage heroku
-Axios.defaults.baseURL = 'https://pydjango-geek-stockcontrol.herokuapp.com/'
+// Axios.defaults.baseURL = 'https://pydjango-geek-stockcontrol.herokuapp.com/'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = Axios

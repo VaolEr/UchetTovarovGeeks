@@ -17,13 +17,13 @@ export default {
     data() {
         return{
             menuItems: [
-                {title: 'Get product list', icon:'el-icon-document', routName: {name: 'productList'}},
+                {title: 'Get product list', icon:'el-icon-document', routName: {name: 'ProductList'}},
                 {title: 'Create product', icon:'el-icon-document-add', routName: {name: 'ProductFormView'}}
                 ],
         }
     },
     methods: {
-        
+
     }
 
 }

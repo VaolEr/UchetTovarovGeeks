@@ -5,7 +5,7 @@
       <Menu />
     </el-aside>
     <el-main style="padding-top: 0px;"> 
-      <router-view />
+      <router-view :key="$route.path" />
     </el-main>
     
   </el-container>

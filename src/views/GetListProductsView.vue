@@ -16,12 +16,13 @@
       label="Action"
     >
     <template slot-scope="scope">
-      <el-button
-        size="mini"
-        @click="handleEdit(scope.row.id)"
-      >
+      <router-link :to="{name:'ProductFormViewEdit', params: {id: scope.row.id}}">
+        <el-button
+          size="mini"
+        >
           Edit
-      </el-button>
+        </el-button>
+      </router-link>
       <el-button
         size="mini"
         type="danger"
@@ -52,7 +53,7 @@ export default {
             this.$axios
                 .get('stock/')
                 .then(response => {
-                    this.products = response.data.product_list
+                    this.products = response.data.response_data
                     this.product_keys = Object.keys(this.products[0])
                     })
                 .catch(error => {
@@ -74,7 +75,7 @@ export default {
           this.$axios
                 .delete(`stock/product/${id}/`)
                 .then(response => {
-                    this.products = response.data.product_list
+                    this.products = response.data.response_data
                     this.product_keys = Object.keys(this.products[0])
                     })
                 .catch(error => {
