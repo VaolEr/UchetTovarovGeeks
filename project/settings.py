@@ -134,6 +134,6 @@ REST_FRAMEWORK = {
     'UNAUTHENTICATED_USER': None,
 }
 
-BACKEND_API_BASE_URL = 'https://gb-storehouse.herokuapp.com/api/v1.0/'
+BACKEND_API_BASE_URL = 'https://gb-storehouse.herokuapp.com/api/v1/'
 
 CORS_ALLOW_ALL_ORIGINS = True

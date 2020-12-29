@@ -42,4 +42,13 @@ def create_view(request):
     elif request.method == "POST":  # CRUD - create
         return Response(api_r.post_create_product(request))
 
+@api_view(['GET', 'POST'])
+def categories_view(request):
+    api_r = BasicAPIRequest()
+    if request.method == 'GET':
+        return Response(api_r.get_categories())
+
+    elif request.method == "POST":
+        return Response()
+
 

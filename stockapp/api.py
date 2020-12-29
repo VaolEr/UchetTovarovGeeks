@@ -7,18 +7,18 @@ class BasicAPIRequest:
         self.base_url = settings.BACKEND_API_BASE_URL
         self.data_dict = {
             "error": None,
-            "product_list": [
+            "response_data": [
                 {
-                    'id': 1001,
-                    'name': 'Pen',
+                    'id': 10,
+                    'name': 'Django',
                     'sku': '123',
                     'supplier_id': None,
                     'category_id':  1001,
                     'item_storehouses': None
                  },
                 {
-                    'id': 1011,
-                    'name': 'Murzilka',
+                    'id': 20,
+                    'name': 'Python',
                     'sku': '#mag321',
                     'supplier_id': None,
                     'category_id': 1011,
@@ -32,7 +32,7 @@ class BasicAPIRequest:
             url = self.base_url+'items/'
             response = r.get(url, timeout=4)
             if response.ok:
-                self.data_dict["product_list"] = response.json()['data']
+                self.data_dict["response_data"] = response.json()['data']
         except Exception as e:
             self.data_dict["error"] = e.__repr__()
         return self.data_dict
@@ -42,7 +42,7 @@ class BasicAPIRequest:
             url = f'{self.base_url}items/{pk}/'
             response = r.get(url, timeout=4)
             if response.ok:
-                self.data_dict["product_list"] = response.json()['data']
+                self.data_dict["response_data"] = response.json()['data']
         except Exception as e:
             self.data_dict["error"] = e.__repr__()
         return self.data_dict
@@ -69,6 +69,16 @@ class BasicAPIRequest:
             response = r.delete(url, timeout=4)
             if response.ok:
                 return response.json()
+        except Exception as e:
+            self.data_dict["error"] = e.__repr__()
+        return self.data_dict
+
+    def get_categories(self):
+        try:
+            url = self.base_url+'categories/'
+            response = r.get(url, timeout=4)
+            if response.ok:
+                self.data_dict["response_data"] = response.json()['data']
         except Exception as e:
             self.data_dict["error"] = e.__repr__()
         return self.data_dict
