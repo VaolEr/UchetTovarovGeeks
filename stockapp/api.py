@@ -4,7 +4,8 @@ from django.conf import settings
 
 class BasicAPIRequest:
     def __init__(self):
-        self.base_url = settings.BACKEND_API_BASE_URL
+        self.api_url_postfix ='api/v1/'
+        self.base_url = settings.BACKEND_API_BASE_URL+self.api_url_postfix
         self.data_dict = {
             "error": None,
             "response_data": [
@@ -50,8 +51,6 @@ class BasicAPIRequest:
     def post_create_product(self, request) -> dict:
         try:
             url = f'{self.base_url}items/'
-            # error = {'error': None}
-            # response = {**error, **request.data}
             print("trying to POST", request.data)
             response = r.post(url, json=request.data)
             print("POST presponse: ", response.text, response.status_code)
@@ -60,15 +59,23 @@ class BasicAPIRequest:
             self.data_dict["error"] = e.__repr__()
             return request.data
 
-    def post_update_product(self, request) -> dict:
-        pass
+    def put_update_product(self, request, pk: int) -> dict:
+        try:
+            url = f'{self.base_url}items/{pk}/'
+            print("trying to PUT", request.data)
+            response = r.put(url, json=request.data)
+            print("PUT presponse: ", response.text, response.status_code)
+            return response.json()
+        except Exception as e:
+            self.data_dict["error"] = e.__repr__()
+            return request.data
 
-    def delete_product(self, pk: int) -> dict:
+    def delete_product(self, pk: int):
         try:
             url = f'{self.base_url}items/{pk}/'
             response = r.delete(url, timeout=4)
             if response.ok:
-                return response.json()
+                return response
         except Exception as e:
             self.data_dict["error"] = e.__repr__()
         return self.data_dict
@@ -83,4 +90,23 @@ class BasicAPIRequest:
             self.data_dict["error"] = e.__repr__()
         return self.data_dict
 
+    def get_suppliers(self):
+        try:
+            url = self.base_url+'suppliers/'
+            response = r.get(url, timeout=4)
+            if response.ok:
+                self.data_dict["response_data"] = response.json()['data']
+        except Exception as e:
+            self.data_dict["error"] = e.__repr__()
+        return self.data_dict
+
+    def get_storehouses(self):
+        try:
+            url = self.base_url+'storehouses/'
+            response = r.get(url, timeout=4)
+            if response.ok:
+                self.data_dict["response_data"] = response.json()['data']
+        except Exception as e:
+            self.data_dict["error"] = e.__repr__()
+        return self.data_dict
 
