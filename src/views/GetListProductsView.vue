@@ -68,21 +68,17 @@ export default {
             this.products = [];
             this.product_keys = [];
         },
-        handleEdit(id) {
-          this.$emit('change-component', 'ProductForm', {id})
-        },
         handleDelete(id) {
           this.$axios
                 .delete(`stock/product/${id}/`)
                 .then(response => {
-                    this.products = response.data.response_data
-                    this.product_keys = Object.keys(this.products[0])
+                    console.log("successfully deleted. Server responded: ", response)
+                    this.products.splice(this.products.indexOf(item => item.id === id),1)
                     })
                 .catch(error => {
                     console.log(error)
                     this.request_error = true
                 })
-                .finally(() => (this.loading = false));
         }
     },
     created() {

@@ -1,48 +1,49 @@
 <template>
     <el-form class="product-form" ref="form" :model="formFields" label-position="top" size='small'>
         <el-form-item > 
-            <el-input v-model="formFields.id" autosize disabled>
+            <el-input v-model="formFields.id"  disabled>
                 <template slot="prepend">id</template>
             </el-input>
         </el-form-item>
         <el-form-item > 
-            <el-input v-model="formFields.name" autosize >
+            <el-input v-model="formFields.name"  >
                 <template slot="prepend">name</template>
             </el-input>
         </el-form-item>
         <el-form-item > 
-            <el-input v-model="formFields.sku" autosize >
+            <el-input v-model="formFields.sku"  >
                 <template slot="prepend">sku</template>
             </el-input>
         </el-form-item>
-        <el-form-item > 
-            <el-input v-model="formFields.supplier" autosize >
-                <template slot="prepend">supplier</template>
-            </el-input>
-        </el-form-item>
-        <el-form-item label = "Please select category" >
+        
+            <product-form-supplier v-bind:selected-supplier.sync="formFields.supplier" />
             <product-form-category v-bind:selected-categories.sync="selectedCategoryNames" @data-exchange="recieveUserSelections"/>
-        </el-form-item> 
+            <product-from-stock v-bind:product_id="formFields.id" v-bind:storehouses-balance.sync="formFields.storehouses_balance" @update-storehouses-balance="receiveStorehousesBalance"/>
+        
         <el-form-item>
-            <el-button type="primary" @click="onSubmit">Save</el-button>
-            <el-button disabled type="danger" @click="onDelete">Delete</el-button>
+            <el-button v-if="!formFields.id" type="success" @click="onSave">Save</el-button>
+            <el-button v-if="formFields.id" type="primary" @click="onUpdate(formFields.id)">Update</el-button>
+            <el-button v-if="formFields.id" type="danger" @click="onDelete(formFields.id)">Delete</el-button>
         </el-form-item>
     </el-form>
 </template>
 
 <script>
 import ProductFormCategory from '../components/ProductFormCategory.vue'
+import ProductFormSupplier from '../components/ProductFormSupplier.vue'
+import ProductFromStock from '../components/ProductFormStock.vue'
+
 
 export default {
-  components: { ProductFormCategory },
+  components: { ProductFormCategory, ProductFormSupplier, ProductFromStock },
     name: "ProductForm",
     data() {
         return {
             formFields: {
-                id: '',
-                name: '',
-                sku: '',
-                supplier: '',
+                id: null,
+                name: null,
+                sku: null,
+                supplier: null,
                 categories: [],
                 storehouses_balance: [],
             }
@@ -56,25 +57,50 @@ export default {
         },
     },
     methods: {
-        onSubmit(){
+        // TODO add Redirect to productform with ID after successul save
+        onSave(){
             this.$axios
             .post('stock/product/create/', this.formFields)
+            .then(response => {
+                console.log(response)
+                if (response.data.response_status === "201 CREATED"){
+                    this.$router.push({ name: 'ProductFormViewEdit', params: { id: `${response.data.data.id}` } })
+                }
+
+            })
+            .catch(error => {
+                    console.log(error)
+            })
+            
+        },
+        onUpdate(id){
+            this.$axios
+            .put(`stock/product/${id}/`, this.formFields)
             .then(response => {
                 console.log(response)
                 })
             .catch(error => {
                     console.log(error)
                 })
-            
         },
         onDelete(id){
-            console.log("deleted", id)
+            this.$axios
+                .delete(`stock/product/${id}/`)
+                .then(response => {
+                    console.log("successfully deleted. Server responded: ", response)
+                    this.$router.push({name: 'ProductFormView'})
+                    //Единственное различие в методе delete тут и в productList - редирект и удаление строки из списка
+                    //this.products.splice(this.products.indexOf(item => item.id === id),1)
+                    //
+                    })
+                .catch(error => {
+                    console.log(error)
+                    this.request_error = true
+                })
         },
         loadData(){
-            // TODO Rewrite this func. It should rely on routing
             try {
                 let id = this.$route.params.id.toString()
-                console.log('we passed ID!!!', typeof id)
                 this.$axios
                 .get(`stock/product/${id}/`)
                 .then(response => {
@@ -83,8 +109,9 @@ export default {
                     this.formFields.id = data.id
                     this.formFields.name = data.name
                     this.formFields.sku = data.sku
-                    this.formFields.supplier_id = data.supplier_id
+                    this.formFields.supplier = data.supplier
                     this.formFields.categories = data.categories
+                    this.formFields.storehouses_balance = data.storehouses_balance
 
                 })
                 .catch(error => {
@@ -101,6 +128,9 @@ export default {
         },
         recieveUserSelections(key, value){
           this.formFields[key]=value
+        },
+        receiveStorehousesBalance(storehouse_id, quantity){
+            console.log(storehouse_id, quantity)
         }
     },
     created() {

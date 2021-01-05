@@ -1,13 +1,13 @@
 <template>
     <el-menu default-active="1">
-        <el-menu-item v-for="(item, index) in menuItems" :key="index">
-            
-            <router-link :to="item.routName">
-                <i :class='item.icon'></i>
-                {{ item.title }} 
+        
+            <router-link v-for="(item, index) in menuItems" :key="index" :to="item.routName">
+                <el-menu-item >
+                    <i :class='item.icon'></i>
+                    {{ item.title }} 
+                </el-menu-item>
             </router-link>
-            
-        </el-menu-item>
+
     </el-menu>
 </template>
 
@@ -30,5 +30,9 @@ export default {
 </script>
 
 <style scoped>
+    a {
+        color: black;
+        text-decoration: none;
+    }
 
 </style>

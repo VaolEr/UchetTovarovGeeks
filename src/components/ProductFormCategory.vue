@@ -1,4 +1,5 @@
 <template>
+    <el-form-item v-if="dataLoaded" label = "Categories" >
         <el-checkbox-group v-model="selectedCategories">
             <el-checkbox-button 
             v-for="category in allCategories" 
@@ -7,6 +8,7 @@
             @change="passData">
             </el-checkbox-button>      
         </el-checkbox-group>
+    </el-form-item> 
 </template>
 
 <script>
@@ -15,7 +17,7 @@ export default {
     props: ['selectedCategories'],
     data() {
         return {
-            
+            dataLoaded: false,
             allCategories: [],
         }
     },
@@ -36,6 +38,7 @@ export default {
                 .then(response => {          
                     let data = response.data.response_data
                     this.allCategories = data
+                    this.dataLoaded = true
                 })
                 .catch(error => {
                     console.log(error)
