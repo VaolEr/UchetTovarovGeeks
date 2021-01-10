@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import GetListProducts from '../views/GetListProductsView.vue'
 import ProductFormView from '../views/ProductFormView.vue'
+import UniversalListView from '../views/UniversalListView.vue'
+import UniversalFormView from '../views/UniversalFormView.vue'
 
 Vue.use(VueRouter)
 
@@ -26,6 +28,16 @@ const routes = [
     name: 'ProductFormViewEdit',
     component: ProductFormView
   },
+  {
+    path: '/universal-list/',
+    name: 'UniversalListView',
+    component: UniversalListView
+  },
+  {
+    path: '/universal-form/:type/:id',
+    name: 'UniversalFormView',
+    component: UniversalFormView,
+  }
 ]
 
 const router = new VueRouter({

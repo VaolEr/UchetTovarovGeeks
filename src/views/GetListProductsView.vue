@@ -39,26 +39,26 @@
 
     <el-table-column 
       label="Action"
-      width="170"
+      width="172"
     >
-    <template slot-scope="scope">
-      <router-link :to="{name:'ProductFormViewEdit', params: {id: scope.row.id}}">
+      <template slot-scope="scope">
+        <router-link :to="{name:'ProductFormViewEdit', params: {id: scope.row.id}}">
+          <el-button
+            class="action_btn"
+            size="mini"
+          >
+            Edit
+          </el-button> 
+        </router-link>
         <el-button
           class="action_btn"
           size="mini"
+          type="danger"
+          @click="handleDelete(scope.row.id)"
         >
-          Edit
-        </el-button> 
-      </router-link>
-      <el-button
-        class="action_btn"
-        size="mini"
-        type="danger"
-        @click="handleDelete(scope.row.id)"
-      >
-          Delete
-      </el-button>
-    </template>
+            Delete
+        </el-button>
+      </template>
     </el-table-column>
     
   </el-table>

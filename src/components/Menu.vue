@@ -18,7 +18,8 @@ export default {
         return{
             menuItems: [
                 {title: 'Get product list', icon:'el-icon-document', routName: {name: 'ProductList'}},
-                {title: 'Create product', icon:'el-icon-document-add', routName: {name: 'ProductFormView'}}
+                {title: 'Create product', icon:'el-icon-document-add', routName: {name: 'ProductFormView'}},
+                {title: 'Entities', icon:'el-icon-document-add', routName: {name: 'UniversalListView'}},
                 ],
         }
     },

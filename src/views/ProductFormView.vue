@@ -89,7 +89,7 @@ export default {
                 .then(response => {
                     console.log("successfully deleted. Server responded: ", response)
                     this.$router.push({name: 'ProductFormView'})
-                    //Единственное различие в методе delete тут и в productList - редирект и удаление строки из списка
+                    //DRY? Единственное различие в методе delete тут и в productList - тут редирект, там удаление строки из списка
                     //this.products.splice(this.products.indexOf(item => item.id === id),1)
                     //
                     })
