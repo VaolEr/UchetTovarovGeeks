@@ -1,29 +1,57 @@
 <template>
   <el-table 
-    v-if="products.length"
     :data="products"
-    empty-text="No info"
+    empty-text="Loading data..."
     border
     style="width: 100%">
     <el-table-column 
-      v-for="(item, index) in product_keys" v-bind:key="index"
-      :prop="item"
-      :label="item"
+      prop="id"
+      label="ID"
+      width="100"
     >
     </el-table-column>
 
     <el-table-column 
+      prop="name"
+      label="NAME"
+    >
+    </el-table-column>
+
+    <el-table-column 
+      prop="sku"
+      label="SKU"
+    >
+    </el-table-column>
+
+    <el-table-column 
+      prop="supplier.name"
+      label="SUPPLIER"
+    >
+    </el-table-column>
+
+    <!-- MAKE ME A COMPONENT WHEN PROUDCT WILL HAVE MULTIPLE CATEGORIES -->
+    <el-table-column 
+      prop="categories[0].name"
+      label="CATEGORY"
+    >
+    </el-table-column>
+
+
+    <el-table-column 
       label="Action"
+      width="170"
     >
     <template slot-scope="scope">
       <router-link :to="{name:'ProductFormViewEdit', params: {id: scope.row.id}}">
         <el-button
+          class="action_btn"
           size="mini"
         >
           Edit
-        </el-button>
+        </el-button> 
       </router-link>
       <el-button
+        class="action_btn"
         size="mini"
         type="danger"
         @click="handleDelete(scope.row.id)"
@@ -44,7 +72,6 @@ export default {
             loading: true,
             request_error: false,
             products: [],
-            product_keys: []
         }
     },
     methods: {
@@ -53,8 +80,8 @@ export default {
             this.$axios
                 .get('stock/')
                 .then(response => {
-                    this.products = response.data.response_data
-                    this.product_keys = Object.keys(this.products[0])
+                    this.products = response.data.response_data.content
+                    
                     })
                 .catch(error => {
                     console.log(error)
@@ -88,6 +115,9 @@ export default {
 </script>
 
 <style scoped>
-
+.action_btn {
+  margin: 2px;
+  min-width: 70px;
+}
 
 </style>
