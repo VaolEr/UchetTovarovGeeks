@@ -90,6 +90,27 @@ class BasicAPIRequest:
             self.data_dict["error"] = e.__repr__()
         return self.data_dict
 
+    def get_category(self, pk: int):
+        try:
+            url = f'{self.base_url}categories/{pk}/'
+            response = r.get(url, timeout=4)
+            if response.ok:
+                self.data_dict["response_data"] = response.json()['data']
+        except Exception as e:
+            self.data_dict["error"] = e.__repr__()
+        return self.data_dict
+
+    def put_update_category(self, request, pk: int) -> dict:
+        try:
+            url = f'{self.base_url}categories/{pk}/'
+            print("trying to PUT", request.data)
+            response = r.put(url, json=request.data)
+            print("PUT presponse: ", response.text, response.status_code)
+            return response.json()
+        except Exception as e:
+            self.data_dict["error"] = e.__repr__()
+            return request.data
+
     def get_suppliers(self):
         try:
             url = self.base_url+'suppliers/'
@@ -100,6 +121,27 @@ class BasicAPIRequest:
             self.data_dict["error"] = e.__repr__()
         return self.data_dict
 
+    def get_supplier(self, pk: int):
+        try:
+            url = f'{self.base_url}suppliers/{pk}/'
+            response = r.get(url, timeout=4)
+            if response.ok:
+                self.data_dict["response_data"] = response.json()['data']
+        except Exception as e:
+            self.data_dict["error"] = e.__repr__()
+        return self.data_dict
+
+    def put_update_supplier(self, request, pk: int) -> dict:
+        try:
+            url = f'{self.base_url}suppliers/{pk}/'
+            print("trying to PUT", request.data)
+            response = r.put(url, json=request.data)
+            print("PUT presponse: ", response.text, response.status_code)
+            return response.json()
+        except Exception as e:
+            self.data_dict["error"] = e.__repr__()
+            return request.data
+
     def get_storehouses(self):
         try:
             url = self.base_url+'storehouses/'
@@ -109,4 +151,25 @@ class BasicAPIRequest:
         except Exception as e:
             self.data_dict["error"] = e.__repr__()
         return self.data_dict
+
+    def get_storehouse(self, pk: int):
+        try:
+            url = f'{self.base_url}storehouses/{pk}/'
+            response = r.get(url, timeout=4)
+            if response.ok:
+                self.data_dict["response_data"] = response.json()['data']
+        except Exception as e:
+            self.data_dict["error"] = e.__repr__()
+        return self.data_dict
+
+    def put_update_storehouse(self, request, pk: int) -> dict:
+        try:
+            url = f'{self.base_url}storehouses/{pk}/'
+            print("trying to PUT", request.data)
+            response = r.put(url, json=request.data)
+            print("PUT presponse: ", response.text, response.status_code)
+            return response.json()
+        except Exception as e:
+            self.data_dict["error"] = e.__repr__()
+            return request.data
 

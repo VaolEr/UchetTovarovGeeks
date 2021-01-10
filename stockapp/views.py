@@ -9,7 +9,7 @@ def index_view(request):
 
 
 @api_view(['GET', 'POST'])
-def list_view(request):
+def product_list_view(request):
     api_r = BasicAPIRequest()
     if request.method == 'GET':
         return Response(api_r.get_products())
@@ -39,8 +39,8 @@ def create_view(request):
         return Response(api_r.post_create_product(request))
 
 
-@api_view(['GET', 'POST'])
-def categories_view(request):
+@api_view(['GET'])
+def categories_list_view(request):
     api_r = BasicAPIRequest()
     if request.method == 'GET':
         return Response(api_r.get_categories())
@@ -49,8 +49,21 @@ def categories_view(request):
         return Response()
 
 
-@api_view(['GET', 'POST'])
-def suppliers_view(request):
+@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+def categories_view(request, pk: int):
+    api_r = BasicAPIRequest()
+    if request.method == 'GET':     # CRUD - read
+        return Response(api_r.get_category(pk))
+
+    elif request.method == "PUT":   # CRUD - update
+        return Response(api_r.put_update_category(request, pk))
+
+    # elif request.method == "DELETE":    # CRUD - delete
+    #     return Response(api_r.delete_category(pk))
+
+
+@api_view(['GET'])
+def suppliers_list_view(request):
     api_r = BasicAPIRequest()
     if request.method == 'GET':
         return Response(api_r.get_suppliers())
@@ -59,13 +72,32 @@ def suppliers_view(request):
         return Response()
 
 
+@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+def suppliers_view(request, pk: int):
+    api_r = BasicAPIRequest()
+    if request.method == 'GET':
+        return Response(api_r.get_supplier(pk))
+
+    elif request.method == "PUT":
+        return Response(api_r.put_update_supplier(request, pk))
+
+
 @api_view(['GET', 'POST'])
-def storehouses_view(request):
+def storehouses_list_view(request):
     api_r = BasicAPIRequest()
     if request.method == 'GET':
         return Response(api_r.get_storehouses())
 
     elif request.method == "POST":
         return Response()
+
+@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+def storehouses_view(request, pk: int):
+    api_r = BasicAPIRequest()
+    if request.method == 'GET':
+        return Response(api_r.get_storehouse(pk))
+
+    elif request.method == "PUT":
+        return Response(api_r.put_update_storehouse(request, pk))
 
 
