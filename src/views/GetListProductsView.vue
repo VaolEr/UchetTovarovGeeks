@@ -1,4 +1,5 @@
 <template>
+<div>
   <el-table 
     :data="products"
     empty-text="Loading data..."
@@ -62,6 +63,19 @@
     </el-table-column>
     
   </el-table>
+  <div v-observe-visibility="handleScrollToBottom">
+    <el-button 
+      class="load_indicator"
+      type="primary" 
+      v-if="page < totalPages" 
+      :loading="loading" 
+      size="small" 
+      @click="getProductList"
+      >
+        Load more...
+      </el-button>
+  </div>
+</div>
 </template>
 
 <script>
@@ -71,29 +85,34 @@ export default {
         return {
             loading: true,
             request_error: false,
+            page: 0,
+            totalPages: 0,
+            pageSize: 10,
             products: [],
         }
     },
     methods: {
-        get_product_list() {
-            this.clear_data()
+        getProductList() {
+          this.loading = true
             this.$axios
-                .get('stock/')
+                .get(`stock/?page=${this.page}&size=${this.pageSize}`)
                 .then(response => {
-                    this.products = response.data.response_data.content
-                    
+                    this.products.push(...response.data.response_data.content)
+                    this.totalPages = response.data.response_data.total_pages
                     })
                 .catch(error => {
                     console.log(error)
                     this.request_error = true
                 })
-                .finally(() => (this.loading = false));
+                .finally(() => {
+                  this.loading = false 
+                  this.page++
+                  });
         },
         clear_data() {
             this.loading= true;
             this.request_error= false;
             this.products = [];
-            this.product_keys = [];
         },
         handleDelete(id) {
           this.$axios
@@ -106,10 +125,21 @@ export default {
                     console.log(error)
                     this.request_error = true
                 })
+        },
+        handleScrollToBottom(isVisible) {
+          if (!isVisible) { return }
+          if (this.loading) { return }
+          if (this.page < this.totalPages){
+            
+            this.getProductList()
+          }
+            
+          console.log("I'm scrolled all way through!", isVisible, this.page)
+          
         }
     },
     created() {
-        this.get_product_list()
+        this.getProductList()
     }
 }
 </script>
@@ -118,6 +148,10 @@ export default {
 .action_btn {
   margin: 2px;
   min-width: 70px;
+}
+
+.load_indicator{
+  margin: 10px;
 }
 
 </style>
