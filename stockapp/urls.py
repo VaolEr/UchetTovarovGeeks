@@ -4,6 +4,7 @@ from . import views
 app_name = 'stockapp'
 
 urlpatterns = [
+    # ?page=0&size=20
     path('', views.product_list_view, name="list_products"),
 
     path('product/create/', views.create_view, name="create_product"),

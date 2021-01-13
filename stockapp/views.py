@@ -12,7 +12,9 @@ def index_view(request):
 def product_list_view(request):
     api_r = BasicAPIRequest()
     if request.method == 'GET':
-        return Response(api_r.get_products())
+        page = request.GET.get('page', None)
+        size = request.GET.get('size', None)
+        return Response(api_r.get_products(page=page, size=size))
 
     elif request.method == "POST":
         return Response()
