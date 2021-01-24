@@ -47,10 +47,8 @@ export default {
                 this.$axios
                 .get(`stock/suppliers/`)
                 .then(response => {          
-                    let data = response.data.response_data
+                    let data = response.data.data
                     this.suppliersList = data
-                    // console.log("SUPPLIERS LIST in AXIOS:  ",this.suppliersList)
-                    // this.selectedElement = this.setSelected(this.selectedSupplier, this.suppliersList)
                     this.dataLoaded = true
                 })
                 .catch(error => {

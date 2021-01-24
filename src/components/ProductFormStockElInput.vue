@@ -1,6 +1,6 @@
 <template>
     <el-input 
-        aria-label="asd"
+        
         :disabled="disabled"
         v-model="stockData.local_quantity"
         @input="updateParent"        
@@ -12,11 +12,11 @@
 <script>
 export default {
     name: "ProductFormStockElInput",
-    props: ['storehouse_name','storehouse_id','quantity', 'disabled'],
+    props: ['storehouse_name','id','quantity', 'disabled'],
     data() {
         let stockData = {
             local_storehouse_name: this.storehouse_name,
-            local_storehouse_id: this.storehouse_id,
+            local_id: this.id,
             local_quantity: this.quantity
         }
         return {

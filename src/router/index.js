@@ -4,6 +4,8 @@ import GetListProducts from '../views/GetListProductsView.vue'
 import ProductFormView from '../views/ProductFormView.vue'
 import UniversalListView from '../views/UniversalListView.vue'
 import UniversalFormView from '../views/UniversalFormView.vue'
+import AuthFormView from '../views/AuthFormView.vue'
+import {store} from '../store'
 
 Vue.use(VueRouter)
 
@@ -12,6 +14,22 @@ const routes = [
     path: '/',
     name: 'index',
     component: GetListProducts
+  },
+  {
+    path: '/login',
+    name: 'login-form',
+    component: AuthFormView,
+    meta: { publicAwailible: true },
+    beforeEnter: (to, from, next) => {
+      if (store.getters.authCheck) {
+        next({
+          name: 'index'
+        })
+      }
+      else {
+        next()
+      }
+    }
   },
   {
     path: '/product-list',
@@ -42,6 +60,14 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'login-form' && !store.getters.authCheck) {
+    next({ name: 'login-form' })
+  }
+  else { next() }
+
 })
 
 export default router

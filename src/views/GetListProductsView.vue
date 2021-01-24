@@ -97,8 +97,8 @@ export default {
             this.$axios
                 .get(`stock/?page=${this.page}&size=${this.pageSize}`)
                 .then(response => {
-                    this.products.push(...response.data.response_data.content)
-                    this.totalPages = response.data.response_data.total_pages
+                    this.products.push(...response.data.data.content)
+                    this.totalPages = response.data.data.total_pages
                     })
                 .catch(error => {
                     console.log(error)
@@ -133,9 +133,6 @@ export default {
             
             this.getProductList()
           }
-            
-          console.log("I'm scrolled all way through!", isVisible, this.page)
-          
         }
     },
     created() {

@@ -18,7 +18,7 @@
         
             <product-form-supplier v-bind:selected-supplier.sync="formFields.supplier" />
             <product-form-category v-bind:selected-categories.sync="selectedCategoryNames" @data-exchange="recieveUserSelections"/>
-            <product-from-stock v-bind:product_id="formFields.id" v-bind:storehouses-balance.sync="formFields.storehouses_balance" @update-storehouses-balance="receiveStorehousesBalance"/>
+            <product-from-stock v-if="dataLoaded" v-bind:product_id="formFields.id" v-bind:storehouses-balance.sync="formFields.storehouses_balance" />
         
         <el-form-item>
             <el-button v-if="!formFields.id" type="success" @click="onSave">Save</el-button>
@@ -27,6 +27,7 @@
         </el-form-item>
     </el-form>
 </template>
+
 
 <script>
 import ProductFormCategory from '../components/ProductFormCategory.vue'
@@ -39,11 +40,13 @@ export default {
     name: "ProductForm",
     data() {
         return {
+            dataLoaded: false,
             formFields: {
                 id: null,
                 name: null,
                 sku: null,
                 supplier: null,
+                unit: {id: 1000}, // TODO add unit ui + control
                 categories: [],
                 storehouses_balance: [],
             }
@@ -57,13 +60,13 @@ export default {
         },
     },
     methods: {
-        // TODO add Redirect to productform with ID after successul save
+        
         onSave(){
             this.$axios
             .post('stock/product/create/', this.formFields)
             .then(response => {
-                console.log(response)
-                if (response.data.response_status === "201 CREATED"){
+                console.log(response.status)
+                if (response.status === 201){
                     this.$router.push({ name: 'ProductFormViewEdit', params: { id: `${response.data.data.id}` } })
                 }
 
@@ -105,13 +108,14 @@ export default {
                 .get(`stock/product/${id}/`)
                 .then(response => {
             
-                    let data = response.data.response_data
+                    let data = response.data.data
                     this.formFields.id = data.id
                     this.formFields.name = data.name
                     this.formFields.sku = data.sku
                     this.formFields.supplier = data.supplier
                     this.formFields.categories = data.categories
                     this.formFields.storehouses_balance = data.storehouses_balance
+                    this.dataLoaded = true
 
                 })
                 .catch(error => {

@@ -36,7 +36,7 @@ export default {
                 .get(`stock/${url}/${id}/`)
                 .then(response => {
             
-                    let data = response.data.response_data
+                    let data = response.data.data
                     this.formFields = data 
 
                 })

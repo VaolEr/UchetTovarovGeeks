@@ -5,7 +5,7 @@
         v-for="stock in stocks" 
         :key="stock.id" 
         v-bind:storehouse_name="stock.name"
-        v-bind:storehouse_id="stock.id"
+        v-bind:id="stock.id"
         v-bind:quantity.sync="stock.quantity"
         v-bind:disabled="product_id !== null"
         />
@@ -31,9 +31,8 @@ export default {
             this.$axios
                 .get(`stock/storehouses/`)
                 .then(response => {         
-                    
-                    let data = response.data.response_data
-                    this.stocks = data
+                    this.stocks = response.data.data
+
                     this.loadQuantity(this.storehousesBalance)
                     
                     this.dataLoaded = true
@@ -45,13 +44,14 @@ export default {
         updateQuantity() {
             this.$emit('update:storehouses-balance', this.stocks)
         },
-        loadQuantity(arr){ // [{storehouse_id: 1000, quantity: 5}]
+        loadQuantity(arr){ // arr = [{id: 1000, quantity: 5}, {id:1001, quantity: 3}]
         
             this.stocks.forEach(localItem =>{
-                localItem["quantity"] = 0
-                localItem["storehouse_id"] = localItem.id // Фикс нэйминга storehouse.ID в API
+                console.log("LOCAL ITEM", localItem)
+                
+                localItem.quantity = 0
                 arr.forEach(item =>{
-                    if (localItem.id === item.storehouse_id) {localItem["quantity"]=item.quantity}
+                    if (localItem.id === item.id) {localItem.quantity=item.quantity}
                 })
             })
         }
@@ -60,7 +60,7 @@ export default {
         this.loadStorehouses()
     },
     watch: {
-        stocks: 'updateQuantity'
+        stocks: 'updateQuantity',
     }
 
 

@@ -36,7 +36,7 @@ export default {
                 this.$axios
                 .get(`stock/categories/`)
                 .then(response => {          
-                    let data = response.data.response_data
+                    let data = response.data.data
                     this.allCategories = data
                     this.dataLoaded = true
                 })

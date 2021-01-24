@@ -64,7 +64,7 @@ export default {
             this.$axios
                 .get(`stock/${selectedUrl}/`)
                 .then(response => {
-                    this.loadedData = response.data.response_data
+                    this.loadedData = response.data.data
                     })
                 .catch(error => {
                     console.log(error)
