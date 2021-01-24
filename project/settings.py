@@ -135,5 +135,6 @@ REST_FRAMEWORK = {
 }
 
 BACKEND_API_BASE_URL = 'https://gb-storehouse.herokuapp.com/'
+# BACKEND_API_BASE_URL = 'https://gb-storehouse-dev.herokuapp.com/'
 
 CORS_ALLOW_ALL_ORIGINS = True

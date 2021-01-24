@@ -1,11 +1,14 @@
 import requests as r
 from django.conf import settings
+from django.http import HttpResponseForbidden
+from rest_framework.response import Response
 
-
+# TODO delete BasicAPIRequest class if not needed.
 class BasicAPIRequest:
     def __init__(self):
         self.api_url_postfix = 'api/v1/'
         self.base_url = settings.BACKEND_API_BASE_URL + self.api_url_postfix
+        self.token = None
         self.data_dict = {
             "error": None,
             "response_data": [
@@ -35,7 +38,7 @@ class BasicAPIRequest:
         http://example.url -> http://expample.url?kwarg1=value&kwarg2=value&...&kwargN=value
         get url arguments should be passed as kwargs
         """
-        print('KWARGS: ', kwargs)
+
         if len(kwargs) == 0:
             return url
         else:
@@ -43,7 +46,7 @@ class BasicAPIRequest:
             url = url + '?'
             for key, value in kwargs.items():
                 if value:
-                    print(f'appending {key}={value}')
+
                     url = f'{url}{key}={value}&'
             return url[:-1]
 
@@ -52,8 +55,7 @@ class BasicAPIRequest:
             url = self.base_url + 'items'
             if page or size:
                 url = BasicAPIRequest.add_get_params(url, page=page, size=size)
-            print('sending GET to: ', url)
-            response = r.get(url, timeout=4)
+            response = r.get(url, timeout=4, headers={"Authorization": self.token})
             if response.ok:
                 self.data_dict["response_data"] = response.json()['data']
         except Exception as e:
@@ -105,7 +107,7 @@ class BasicAPIRequest:
     def get_categories(self):
         try:
             url = self.base_url + 'categories/'
-            response = r.get(url, timeout=4)
+            response = r.get(url, timeout=4, headers={"Authorization": self.token})
             if response.ok:
                 self.data_dict["response_data"] = response.json()['data']
         except Exception as e:
@@ -136,7 +138,7 @@ class BasicAPIRequest:
     def get_suppliers(self):
         try:
             url = self.base_url + 'suppliers/'
-            response = r.get(url, timeout=4)
+            response = r.get(url, timeout=4, headers={"Authorization": self.token})
             if response.ok:
                 self.data_dict["response_data"] = response.json()['data']
         except Exception as e:
@@ -167,9 +169,11 @@ class BasicAPIRequest:
     def get_storehouses(self):
         try:
             url = self.base_url + 'storehouses/'
-            response = r.get(url, timeout=4)
+            response = r.get(url, timeout=4, headers={"Authorization": self.token})
             if response.ok:
                 self.data_dict["response_data"] = response.json()['data']
+            else:
+                return HttpResponseForbidden()
         except Exception as e:
             self.data_dict["error"] = e.__repr__()
         return self.data_dict
@@ -189,8 +193,126 @@ class BasicAPIRequest:
             url = f'{self.base_url}storehouses/{pk}/'
             print("trying to PUT", request.data)
             response = r.put(url, json=request.data)
-            print("PUT presponse: ", response.text, response.status_code)
+            print("PUT response: ", response.text, response.status_code)
             return response.json()
         except Exception as e:
             self.data_dict["error"] = e.__repr__()
             return request.data
+
+    def post_login(self, request):
+        try:
+            url = f'{self.base_url}auth/login'
+            print(f"trying to POST to {url} \n", request.data)
+            response = r.post(url, json=request.data)
+            print(f"POST response with code {response.status_code}: \n ", response.text)
+            if response.ok:
+                return response.json()
+            else:
+                return response
+        except Exception as e:
+            self.data_dict["error"] = e.__repr__()
+            return request.data
+
+
+class APIRequest:
+    def __init__(self, request_path, token, *args, **kwargs):
+        self.url = self.combine_url(request_path, **kwargs)
+        self.api_url_postfix = 'api/v1/'
+        self.base_url = settings.BACKEND_API_BASE_URL + self.api_url_postfix
+        self.token = token
+        self.data = {}
+
+    @staticmethod
+    def combine_get_params(**kwargs):
+        """
+        Turns **kwargs into GET arguments for URL.
+        {kwarg1: value1, kwarg2:value2 ...} -> ?kwarg1=value1&kwarg2=value2&...&kwargN=value
+        get url arguments should be passed as kwargs
+        """
+
+        if len(kwargs) == 0:
+            return ''
+        else:
+            get_params = '?'
+            for key, value in kwargs.items():
+                if value:
+                    get_params = f'{get_params}{key}={value}&'
+            return get_params[:-1]
+
+    @staticmethod
+    def get_base_url_postfix():
+        """
+        Should make a request to API server to get actual URL postfix e.g. ( api/v1/ )
+        :return: url postfix as string
+        """
+        return 'api/v1'
+
+    def combine_url(self, request_path, **kwargs):
+        url = f'{settings.BACKEND_API_BASE_URL}' \
+              f'{APIRequest.get_base_url_postfix()}' \
+              f'{request_path}' \
+              f'{self.combine_get_params(**kwargs)}'
+        print("URL COMBINED: ", url)
+        return url
+
+    def handle_response_error(self, response):
+        if response.status_code == 403 or response.status_code == 401:
+            return HttpResponseForbidden()
+
+    def GET(self):
+        try:
+            response = r.get(self.url, timeout=4, headers={"Authorization": self.token})
+            print(f"RESPONSE CODE {response.status_code}")
+            if response.ok:
+                self.data = response.json()
+                status = response.status_code
+            else:
+                return self.handle_response_error(response)
+        except Exception as e:
+            self.data["error"] = e.__repr__()
+            status = 418
+        return Response(self.data, status=status)
+
+    def POST(self, request_data):
+        try:
+            print("trying to POST", request_data)
+            response = r.post(self.url, json=request_data, headers={"Authorization": self.token})
+            if response.ok:
+                self.data = response.json()
+                status = response.status_code
+                print("STATUS=", status)
+            else:
+                return self.handle_response_error(response)
+        except Exception as e:
+            print(e)
+            self.data["error"] = e.__repr__()
+            status = 418
+        return Response(self.data, status=status)
+
+    def PUT(self, request_data):
+        try:
+            print("trying to PUT", request_data)
+            response = r.put(self.url, json=request_data, headers={"Authorization": self.token})
+            print("RESPONSE: ", response.status_code, response.text)
+            if response.ok:
+                self.data = response.json()
+                status = response.status_code
+            else:
+                return self.handle_response_error(response)
+        except Exception as e:
+            self.data["error"] = e.__repr__()
+            status = 418
+        return Response(self.data, status=status)
+
+    def DELETE(self):
+        try:
+            response = r.delete(self.url, timeout=4, headers={"Authorization": self.token})
+            print(f"RESPONSE CODE {response.status_code}")
+            if response.ok:
+                status = response.status_code
+            else:
+                return self.handle_response_error(response)
+        except Exception as e:
+            self.data["error"] = e.__repr__()
+            status = 418
+        return Response(self.data, status=status)

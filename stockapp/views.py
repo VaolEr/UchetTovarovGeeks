@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from stockapp.api import BasicAPIRequest
+from stockapp.api import BasicAPIRequest, APIRequest
 from django.shortcuts import render
 
 
@@ -8,98 +8,103 @@ def index_view(request):
     return render(request, 'stockapp/index.html')
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def product_list_view(request):
-    api_r = BasicAPIRequest()
-    if request.method == 'GET':
-        page = request.GET.get('page', None)
-        size = request.GET.get('size', None)
-        return Response(api_r.get_products(page=page, size=size))
+    url = '/items'
+    token = request.headers.get('Authorization', None)
+    page = request.GET.get('page', None)
+    size = request.GET.get('size', None)
 
-    elif request.method == "POST":
-        return Response()
+    api_request = APIRequest(url, token, page=page, size=size)
+    return api_request.GET()
 
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
 def product_view(request, pk: int):
-    api_r = BasicAPIRequest()
+    url = f'/items/{pk}/'
+    token = request.headers.get('Authorization', None)
+    api_request = APIRequest(url, token)
     if request.method == 'GET':     # CRUD - read
-        return Response(api_r.get_product(pk))
+        return api_request.GET()
 
     elif request.method == "PUT":   # CRUD - update
-        return Response(api_r.put_update_product(request, pk))
+        return api_request.PUT(request.data)
 
     elif request.method == "DELETE":    # CRUD - delete
-        return Response(api_r.delete_product(pk))
+        return api_request.DELETE()
 
 
 @api_view(['POST'])
 def create_view(request):
-
-    api_r = BasicAPIRequest()
-    if request.method == "POST":  # CRUD - create
-        return Response(api_r.post_create_product(request))
+    url = '/items'
+    token = request.headers.get('Authorization', None)
+    api_request = APIRequest(url, token)
+    return api_request.POST(request.data)
 
 
 @api_view(['GET'])
 def categories_list_view(request):
-    api_r = BasicAPIRequest()
-    if request.method == 'GET':
-        return Response(api_r.get_categories())
-
-    elif request.method == "POST":
-        return Response()
+    url = '/categories/'
+    token = request.headers.get('Authorization', None)
+    api_request = APIRequest(url, token)
+    return api_request.GET()
 
 
-@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+@api_view(['GET', 'POST', 'PUT'])
 def categories_view(request, pk: int):
-    api_r = BasicAPIRequest()
+    url = f'/categories/{pk}'
+    token = request.headers.get('Authorization', None)
+    api_request = APIRequest(url, token)
     if request.method == 'GET':     # CRUD - read
-        return Response(api_r.get_category(pk))
+        return api_request.GET()
 
     elif request.method == "PUT":   # CRUD - update
-        return Response(api_r.put_update_category(request, pk))
-
-    # elif request.method == "DELETE":    # CRUD - delete
-    #     return Response(api_r.delete_category(pk))
+        return api_request.PUT(request.data)
 
 
 @api_view(['GET'])
 def suppliers_list_view(request):
-    api_r = BasicAPIRequest()
-    if request.method == 'GET':
-        return Response(api_r.get_suppliers())
-
-    elif request.method == "POST":
-        return Response()
+    url = '/suppliers/'
+    token = request.headers.get('Authorization', None)
+    api_request = APIRequest(url, token)
+    return api_request.GET()
 
 
-@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+@api_view(['GET', 'POST', 'PUT'])
 def suppliers_view(request, pk: int):
-    api_r = BasicAPIRequest()
-    if request.method == 'GET':
-        return Response(api_r.get_supplier(pk))
+    url = f'/suppliers/{pk}'
+    token = request.headers.get('Authorization', None)
+    api_request = APIRequest(url, token)
+    if request.method == 'GET':  # CRUD - read
+        return api_request.GET()
 
-    elif request.method == "PUT":
-        return Response(api_r.put_update_supplier(request, pk))
+    elif request.method == "PUT":  # CRUD - update
+        return api_request.PUT(request.data)
 
 
 @api_view(['GET', 'POST'])
 def storehouses_list_view(request):
-    api_r = BasicAPIRequest()
-    if request.method == 'GET':
-        return Response(api_r.get_storehouses())
+    url = '/storehouses/'
+    token = request.headers.get('Authorization', None)
+    api_request = APIRequest(url, token)
+    return api_request.GET()
 
-    elif request.method == "POST":
-        return Response()
 
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
 def storehouses_view(request, pk: int):
-    api_r = BasicAPIRequest()
-    if request.method == 'GET':
-        return Response(api_r.get_storehouse(pk))
+    url = f'/storehouses/{pk}'
+    token = request.headers.get('Authorization', None)
+    api_request = APIRequest(url, token)
+    if request.method == 'GET':  # CRUD - read
+        return api_request.GET()
 
-    elif request.method == "PUT":
-        return Response(api_r.put_update_storehouse(request, pk))
+    elif request.method == "PUT":  # CRUD - update
+        return api_request.PUT(request.data)
 
+
+@api_view(['POST'])
+def login(request):
+    url = '/auth/login'
+    api_request = APIRequest(url, None)
+    return api_request.POST(request.data)
 
