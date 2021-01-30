@@ -16,5 +16,7 @@ urlpatterns = [
     path('suppliers/<int:pk>/', views.suppliers_view, name="read_supplier"),
     path('storehouses/', views.storehouses_list_view, name="list_storehouses"),
     path('storehouses/<int:pk>/', views.storehouses_view, name="read_storehouse"),
+    path('units/', views.units_list_view, name="list_units"),
+    path('units/<int:pk>/', views.units_view, name="read_unit"),
     path('login', views.login, name='login')
 ]

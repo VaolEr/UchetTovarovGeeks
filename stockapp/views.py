@@ -1,6 +1,5 @@
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from stockapp.api import BasicAPIRequest, APIRequest
+from stockapp.api import APIRequest
 from django.shortcuts import render
 
 
@@ -82,7 +81,7 @@ def suppliers_view(request, pk: int):
         return api_request.PUT(request.data)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def storehouses_list_view(request):
     url = '/storehouses/'
     token = request.headers.get('Authorization', None)
@@ -93,6 +92,26 @@ def storehouses_list_view(request):
 @api_view(['GET', 'POST', 'DELETE', 'PUT'])
 def storehouses_view(request, pk: int):
     url = f'/storehouses/{pk}'
+    token = request.headers.get('Authorization', None)
+    api_request = APIRequest(url, token)
+    if request.method == 'GET':  # CRUD - read
+        return api_request.GET()
+
+    elif request.method == "PUT":  # CRUD - update
+        return api_request.PUT(request.data)
+
+
+@api_view(['GET'])
+def units_list_view(request):
+    url = '/units/'
+    token = request.headers.get('Authorization', None)
+    api_request = APIRequest(url, token)
+    return api_request.GET()
+
+
+@api_view(['GET', 'POST', 'DELETE', 'PUT'])
+def units_view(request, pk: int):
+    url = f'/units/{pk}'
     token = request.headers.get('Authorization', None)
     api_request = APIRequest(url, token)
     if request.method == 'GET':  # CRUD - read
