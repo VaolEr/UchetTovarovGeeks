@@ -2,12 +2,12 @@
     <el-form-item v-if="dataLoaded" label="Stock">
 
         <product-form-stock-el-input 
+        class="stock_input"
         v-for="stock in stocks" 
         :key="stock.id" 
         v-bind:storehouse_name="stock.name"
         v-bind:id="stock.id"
         v-bind:quantity.sync="stock.quantity"
-        v-bind:disabled="product_id !== null"
         />
     
     </el-form-item>
@@ -47,7 +47,6 @@ export default {
         loadQuantity(arr){ // arr = [{id: 1000, quantity: 5}, {id:1001, quantity: 3}]
         
             this.stocks.forEach(localItem =>{
-                console.log("LOCAL ITEM", localItem)
                 
                 localItem.quantity = 0
                 arr.forEach(item =>{
@@ -67,6 +66,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.el-input-group__prepend {
+    min-width: 120px;
+}
 
+.stock_input {
+    margin-top: 9px;
+}
 </style>

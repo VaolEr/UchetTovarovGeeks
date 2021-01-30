@@ -25,7 +25,8 @@ export default {
             entities: [
                 {name: "SUPPLIERS", url:"suppliers"},
                 {name: "CATEGORIES", url:"categories"},
-                {name: "STOREHOUSES", url:"storehouses"}
+                {name: "STOREHOUSES", url:"storehouses"},
+                {name: "UNITS", url:"units"}
             ],
             selected: {name: "SUPPLIERS", url:"suppliers"},
         }

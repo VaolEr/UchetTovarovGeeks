@@ -1,5 +1,5 @@
 <template>
-    <el-form class="product-form" ref="form" :model="formFields" label-position="top" size='small'>
+    <el-form class="product-form" ref="form" :model="formFields" label-position="top" size='small' v-loading.lock="!dataLoaded" >
         <el-form-item > 
             <el-input v-model="formFields.id"  disabled>
                 <template slot="prepend">id</template>
@@ -16,13 +16,14 @@
             </el-input>
         </el-form-item>
         
-            <product-form-supplier v-bind:selected-supplier.sync="formFields.supplier" />
-            <product-form-category v-bind:selected-categories.sync="selectedCategoryNames" @data-exchange="recieveUserSelections"/>
+            <product-form-supplier v-if="dataLoaded" v-bind:selected-supplier.sync="formFields.supplier" />
+            <product-form-category v-if="dataLoaded" v-bind:selected-categories.sync="formFields.categories" />
+            <product-form-unit v-if="dataLoaded" v-bind:selected-unit.sync="formFields.unit" />
             <product-from-stock v-if="dataLoaded" v-bind:product_id="formFields.id" v-bind:storehouses-balance.sync="formFields.storehouses_balance" />
         
-        <el-form-item>
-            <el-button v-if="!formFields.id" type="success" @click="onSave">Save</el-button>
-            <el-button v-if="formFields.id" type="primary" @click="onUpdate(formFields.id)">Update</el-button>
+        <el-form-item v-if="$store.getters.userRole === 'ADMIN' ">
+            <el-button v-if="!formFields.id" type="success" @click="onSave" :loading="buttonLoading">Save</el-button>
+            <el-button v-if="formFields.id" type="primary" @click="onUpdate(formFields.id)" :loading="buttonLoading">Update</el-button>
             <el-button v-if="formFields.id" type="danger" @click="onDelete(formFields.id)">Delete</el-button>
         </el-form-item>
     </el-form>
@@ -33,20 +34,22 @@
 import ProductFormCategory from '../components/ProductFormCategory.vue'
 import ProductFormSupplier from '../components/ProductFormSupplier.vue'
 import ProductFromStock from '../components/ProductFormStock.vue'
+import ProductFormUnit from '../components/ProductFormUnit.vue'
 
 
 export default {
-  components: { ProductFormCategory, ProductFormSupplier, ProductFromStock },
+  components: { ProductFormCategory, ProductFormSupplier, ProductFromStock, ProductFormUnit },
     name: "ProductForm",
     data() {
         return {
             dataLoaded: false,
+            buttonLoading: false,
             formFields: {
                 id: null,
                 name: null,
                 sku: null,
                 supplier: null,
-                unit: {id: 1000}, // TODO add unit ui + control
+                unit: null,
                 categories: [],
                 storehouses_balance: [],
             }
@@ -62,44 +65,51 @@ export default {
     methods: {
         
         onSave(){
+            this.buttonLoading = true
             this.$axios
             .post('stock/product/create/', this.formFields)
             .then(response => {
                 console.log(response.status)
                 if (response.status === 201){
+                    this.$notify.success(`Item created`);
                     this.$router.push({ name: 'ProductFormViewEdit', params: { id: `${response.data.data.id}` } })
                 }
 
             })
             .catch(error => {
-                    console.log(error)
+                this.$notify.error(`Ошибка. ${error}`);
+                console.log(error)
+            this.buttonLoading = false
             })
             
         },
         onUpdate(id){
+            this.buttonLoading = true
             this.$axios
             .put(`stock/product/${id}/`, this.formFields)
-            .then(response => {
-                console.log(response)
+            .then(() => {
+                this.$notify.success(`Item updated`);
+                this.buttonLoading = false
                 })
             .catch(error => {
-                    console.log(error)
+                this.$notify.error(`ERROR`);
+                console.log(error)
                 })
+            
         },
         onDelete(id){
+            this.buttonLoading = true
             this.$axios
                 .delete(`stock/product/${id}/`)
-                .then(response => {
-                    console.log("successfully deleted. Server responded: ", response)
+                .then(() => {
+                    this.$notify.success(`Item deleted`);
                     this.$router.push({name: 'ProductFormView'})
-                    //DRY? Единственное различие в методе delete тут и в productList - тут редирект, там удаление строки из списка
-                    //this.products.splice(this.products.indexOf(item => item.id === id),1)
-                    //
                     })
                 .catch(error => {
+                    this.$notify.error(`ERROR`);
                     console.log(error)
-                    this.request_error = true
                 })
+            this.buttonLoading = false
         },
         loadData(){
             try {
@@ -114,6 +124,7 @@ export default {
                     this.formFields.sku = data.sku
                     this.formFields.supplier = data.supplier
                     this.formFields.categories = data.categories
+                    this.formFields.unit = data.unit
                     this.formFields.storehouses_balance = data.storehouses_balance
                     this.dataLoaded = true
 
@@ -125,16 +136,11 @@ export default {
             catch (err){
                 if (err.name == "TypeError") {
                     console.log("Create mode")
+                    this.dataLoaded = true
                 }
                 else (console.log(err))
             }
-            
-        },
-        recieveUserSelections(key, value){
-          this.formFields[key]=value
-        },
-        receiveStorehousesBalance(storehouse_id, quantity){
-            console.log(storehouse_id, quantity)
+
         }
     },
     created() {

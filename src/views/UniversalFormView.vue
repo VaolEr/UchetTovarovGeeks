@@ -12,8 +12,8 @@
         </el-input>
     </el-form-item>
     <el-form-item>
-            <el-button v-show="false" v-if="!formFields.id" type="success" @click="onSave">Save</el-button>
-            <el-button v-if="formFields.id" type="primary" @click="onUpdate($route.params.type, formFields.id)">Update</el-button>
+            <el-button v-show="false" v-if="!formFields.id" type="success" @click="onSave" :loading="buttonLoading">Save</el-button>
+            <el-button v-if="formFields.id" type="primary" @click="onUpdate($route.params.type, formFields.id)" :loading="buttonLoading">Update</el-button>
             <el-button disabled v-if="formFields.id" type="danger" @click="onDelete(formFields.id)">Delete</el-button>
         </el-form-item>
 </el-form>
@@ -26,6 +26,7 @@ export default {
     name: "UniversalFormView",
     data(){
         return{
+            buttonLoading: false,
             itemType: this.$route.params.type,
             formFields: {}
         }
@@ -46,13 +47,16 @@ export default {
             },
         onSave(){},
         onUpdate(url, id){
+            this.buttonLoading = true
             this.$axios
             .put(`stock/${url}/${id}/`, this.formFields)
-            .then(response => {
-                console.log(response)
+            .then(() => {
+                this.buttonLoading = false
+                this.$notify.success(`Item updated`);
                 })
             .catch(error => {
-                    console.log(error)
+                this.$notify.error(`ERROR`);
+                console.log(error)
                 })
         },
         onDelete(){},

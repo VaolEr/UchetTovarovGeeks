@@ -1,8 +1,8 @@
 <template>
-    <el-form-item v-if="dataLoaded" label="Supplier"> 
-        <el-select v-model="selectedSup" value-key="id" placeholder="Select supplier">
+    <el-form-item v-if="dataLoaded" label="Units"> 
+        <el-select v-model="selectedSup" value-key="id" placeholder="Select units">
             <el-option 
-            v-for="item in suppliersList"
+            v-for="item in unitsList"
             :key="item.id"
             :label="item.name" 
             :value="item">
@@ -14,11 +14,11 @@
 
 <script>
 export default {
-    name: "ProductFormSupplier",
-    props: ['selectedSupplier'],
+    name: "ProductFormUnit",
+    props: ['selectedUnit'],
     data() {
         return {
-            suppliersList: [],
+            unitsList: [],
             dataLoaded: false,
         }
     },
@@ -26,8 +26,8 @@ export default {
         selectedSup: {
             get: function() {
                 try {
-                    // matching selected supplier in parent comp with supplier awailible for selection (suppliersList)
-                   let match = this.suppliersList.find(elem => this.selectedSupplier.id === elem.id)
+                    // matching selected unit in parent comp with units awailible for selection (unitsList)
+                   let match = this.unitsList.find(elem => this.selectedUnit.id === elem.id)
                    return match 
                 }
                 catch (err) {
@@ -36,7 +36,7 @@ export default {
                 
             },
             set: function(newValue) {
-                this.$emit('update:selected-supplier', newValue)
+                this.$emit('update:selected-unit', newValue)
             }
         }
     },
@@ -44,10 +44,10 @@ export default {
         loadData(){
             try {
                 this.$axios
-                .get(`stock/suppliers/`)
+                .get(`stock/units/`)
                 .then(response => {          
                     let data = response.data.data
-                    this.suppliersList = data
+                    this.unitsList = data
                     this.dataLoaded = true
                 })
                 .catch(error => {
@@ -56,7 +56,7 @@ export default {
             } 
             catch (err){
                 if (err.name == "TypeError") {
-                  // Form launches in create mode   
+                    // Form launches in create mode   
                 }
                 else {
                     console.log(err)

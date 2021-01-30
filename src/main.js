@@ -12,25 +12,6 @@ Axios.defaults.baseURL = 'http://127.0.0.1:8001/'
 // stage heroku
 //Axios.defaults.baseURL = 'https://pydjango-geek-stockcontrol.herokuapp.com/'
 
-Axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-/*Axios.interceptors.request.use(
-  function (config) {   
-    config.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-  return config
-    },
-  function (error) {
-      return Promise.reject(error);
-      }
-);
-Axios.interceptors.response.use(
-  function (response) {
-    if (response.data.token) {localStorage.setItem('token', response.data.token)}
-  return response
-    },
-  function (error) {
-      return Promise.reject(error);
-      }
-);*/
 
 Vue.use(VueObserveVisibility)
 

@@ -37,6 +37,16 @@
     >
     </el-table-column>
 
+    <el-table-column 
+      label="TOTAL QTY"
+    >
+      <template slot-scope="scope">
+        {{scope.row.total_qty}}
+        {{scope.row.unit.name}}
+      </template>
+    
+    </el-table-column>
+
 
     <el-table-column 
       label="Action"
@@ -48,10 +58,12 @@
             class="action_btn"
             size="mini"
           >
-            Edit
+            <span v-if="$store.getters.userRole==='ADMIN'">Edit</span>
+            <span v-if="$store.getters.userRole==='USER'">View</span>
           </el-button> 
         </router-link>
-        <el-button
+        <el-button 
+          v-if="$store.getters.userRole==='ADMIN'"
           class="action_btn"
           size="mini"
           type="danger"

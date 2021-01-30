@@ -1,13 +1,13 @@
 <template>
     <el-form-item v-if="dataLoaded" label = "Categories" >
-        <el-checkbox-group v-model="selectedCategories">
-            <el-checkbox-button 
+        <el-radio-group v-model="selectedCategory">
+            <el-radio-button 
             v-for="category in allCategories" 
             :key="category.id" 
             :label="category.name"
-            @change="passData">
-            </el-checkbox-button>      
-        </el-checkbox-group>
+            >
+            </el-radio-button>      
+        </el-radio-group>
     </el-form-item> 
 </template>
 
@@ -18,17 +18,29 @@ export default {
     data() {
         return {
             dataLoaded: false,
-            allCategories: [],
+            allCategories: [],     
         }
     },
     computed: {
-        selectedCategoryObjects() {
-            let categoryObjects = []
-            this.selectedCategories.forEach(element => {
-                categoryObjects.push(this.getObjectByName(element))
-            });
-            return categoryObjects
-        }
+        selectedCategory: {
+            get: function() {
+                try {
+                    let categoryName = this.selectedCategories[0].name // we need to pass string to radio button model. it will return label value
+                    return categoryName
+                    }
+                catch {
+                    return null
+                }
+                
+                },
+            set: function(newValue) {
+                
+                let categoryArr = []
+                categoryArr[0] = this.getObjectByName(newValue)
+                this.updateSelectedCategoty(categoryArr)
+                
+                }
+            }
     },
     methods: {
         loadData(){
@@ -51,12 +63,12 @@ export default {
             }
             
         },
+        updateSelectedCategoty (newValue) {
+            this.$emit('update:selectedCategories', newValue)
+        },
         getObjectByName(name) {
             let obj = this.allCategories.find(elem => elem.name === name)
             return obj
-        },
-        passData(){
-            this.$emit('data-exchange', 'categories', this.selectedCategoryObjects)
         }
     },
     created() {

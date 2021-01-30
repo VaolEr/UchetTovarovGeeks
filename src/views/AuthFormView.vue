@@ -19,7 +19,7 @@
         </el-form-item>
 
         <el-form-item>
-            <el-button type="primary" @click="submitForm">Log in</el-button>
+            <el-button type="primary" @click="submitForm" :loading="loadingData">Log in</el-button>
         </el-form-item>
     
     </el-form>
@@ -31,6 +31,7 @@ export default {
     name: 'AuthFormView',
     data() {
         return {
+            loadingData: false,
             formFields: {
                 email: '',
                 password: ''
@@ -40,13 +41,21 @@ export default {
     },
     methods:{
         submitForm() {
+            this.loadingData = true
             this.$axios
             .post('stock/login', this.formFields)
             .then(response => {
+                this.loadingData = false
                 this.$store.commit('logIn', response.data.token)
                 this.$router.push({name: 'index'})
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                if (err.response.status !== 403) {
+                    this.$notify.error(`Ошибка соединения с сервером. Код ошибки ${err.response.status}`)
+                }
+                this.loadingData = false
+                console.log(err)
+                })
         },
 
     }

@@ -46,6 +46,7 @@ export default {
   computed:{
     ...mapGetters([
           'authCheck',
+          'userRole'
         ])
   },
   methods: {
@@ -67,11 +68,12 @@ export default {
         return response
           },
         function (error) {
-          console.log("INTERCEPTED ERROR", error)
           if (error.response.status == 403){
             vm.$notify.error(`Ошибка авторизации. Код ошибки ${error.response.status}`);
-            vm.$store.commit('logOut')
-            vm.$router.push({name: 'login-form'})
+            if (vm.$route.name !== 'login-form') {
+              vm.$store.commit('logOut')
+              vm.$router.push({name: 'login-form'})
+            }
           }
             return Promise.reject(error);
             }
