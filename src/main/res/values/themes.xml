@@ -1,0 +1,28 @@
+<resources  xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppThemeBlue" parent="Theme.MaterialComponents.DayNight">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="android:textColor">@color/blue2</item>
+        <item name="android:textColorPrimary">@color/blue3</item>
+        <item name="android:textColorSecondary">@color/blue5</item>
+        <item name="android:colorAccent">@color/blue7</item>
+        <item name="android:colorPrimary">@color/blue3</item>
+        <item name="android:colorPrimaryDark">@color/blue4</item>
+        <item name="android:colorBackground">@color/blue1</item>
+        <item name="android:color">@color/blue6</item>
+        <item name="android:colorButtonNormal">@color/blue3</item>
+
+        <item name="android:navigationBarColor">@color/blue3</item>
+        <item name="android:actionBarItemBackground">@color/blue3</item>
+
+    </style>
+
+    <style name="AppThemeBlue.AppBarOverlay">
+        <item name="android:actionBarItemBackground">@color/blue3</item>
+
+    </style>
+
+    <style name="AppThemeBlue.PopupOverlay"  />
+</resources>

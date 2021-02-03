@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Учет товаров</string>
+    <string name="title_activity_list">Список товаров</string>
+    <string name="next">След..</string>
+    <string name="previous">Пред..</string>
+    <string name="GettingDataError">Ошибка получения данных</string>
+    <string name="sku">Артикль</string>
+    <string name="supplier">Поставщик</string>
+    <string name="title_activity_item">Товар</string>
+    <string name="title_activity_login">Логин</string>
+    <string name="prompt_password">Пароль</string>
+    <string name="prompt_email" translatable="false">эл почта</string>
+    <string name="action_sign_in">Войдите или зарегистрируйтесь</string>
+    <string name="action_sign_in_short">Войдите</string>
+    <string name="welcome">Вход выполнен</string>
+    <string name="invalid_username">Такое имя не найдено</string>
+    <string name="invalid_password">Пароль должен быть больше 3 символов</string>
+    <string name="login_failed">Вход не выполнен</string>
+    <string name="title_activity_storehous">Склад</string>
+    <string name="name">Наименование</string>
+    <string name="unit">Eд.изм</string>
+    <string name="category">Категория</string>
+    <string name="to_list">К списку</string>
+    <string name="ItemAdded">Товар успешно добавлен</string>
+    <string name="error">Ошибка</string>
+    <string name="item_updated">Товар успешно изменен</string>
+    <string name="item_deleted">Товар успешно удален</string>
+</resources>
