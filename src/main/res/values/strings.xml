@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Uchet tovarov geeks</string>
+    <string name="title_activity_list">List of goods</string>
+    <string name="title_activity_item">Good</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="UrlToServer" translatable="false">https://gb-storehouse.herokuapp.com/</string>
+    <string name="id" translatable="false">ID</string>
+    <string name="sku">sku</string>
+    <string name="supplier">Supplier</string>
+    <string name="GettingDataError">Getting data error</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome, "</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >3 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="title_activity_storehous">Storehouse</string>
+    <string name="name">Name</string>
+    <string name="unit">Unit</string>
+    <string name="category">Category</string>
+    <string name="to_list">To list</string>
+    <string name="ItemAdded">Элемент успешно добавлен</string>
+    <string name="error">Error</string>
+    <string name="item_updated">item updated</string>
+    <string name="item_deleted">Item deleted</string>
+
+</resources>
